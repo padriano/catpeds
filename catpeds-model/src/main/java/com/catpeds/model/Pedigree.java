@@ -27,7 +27,7 @@ public class Pedigree {
 	private String name;
 
 	/**
-	 * EMS system code
+	 * FIFe Easy Mind System (EMS) code
 	 */
 	private String ems;
 
