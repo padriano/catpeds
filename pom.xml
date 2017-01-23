@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  
+  <groupId>com.catpeds</groupId>
+  <artifactId>catpeds</artifactId>
+  <packaging>pom</packaging>
+  <version>1.0-SNAPSHOT</version>
+  
+  <name>CatPeds project</name>
+  <url>${catpeds.url}</url>
+  <description>Cat pedigree analyser and aggregator to provide cat genetic information from multiple sources</description>
+
+  <modules>
+    <module>catpeds-model</module>
+    <module>catpeds-bom</module>
+  </modules>
+  
+  <properties>
+    <catpeds.url>https://github.com/padriano/catpeds</catpeds.url>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <junit.version>4.12</junit.version>
+    <assertj.version>3.6.1</assertj.version>
+    <mockito.version>2.6.1</mockito.version>
+  </properties>
+
+  <developers>
+    <developer>
+      <name>Nuno Padriano</name>
+      <email>padriano@gmail.com</email>
+      <timezone>Europe/London</timezone>
+      <roles>
+        <role>architect</role>
+      </roles>
+    </developer>
+  </developers>
+
+  <licenses>
+    <license>
+      <name>MIT</name>
+      <url>https://opensource.org/licenses/MIT</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+
+  <scm>
+    <connection>scm:git:git://github.com/padriano/catpeds.git</connection>
+    <developerConnection>scm:git:git@github.com:padriano/catpeds.git</developerConnection>
+    <url>https://github.com/padriano/catpeds</url>
+    <tag>HEAD</tag>
+  </scm>
+
+  <issueManagement>
+    <system>GitHub</system>
+    <url>https://github.com/padriano/catpeds/issues</url>
+  </issueManagement>
+  
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+        <version>${junit.version}</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.mockito</groupId>
+        <artifactId>mockito-core</artifactId>
+        <version>${mockito.version}</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.assertj</groupId>
+        <artifactId>assertj-core</artifactId>
+        <version>${assertj.version}</version>
+        <scope>test</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+  
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-core</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.assertj</groupId>
+      <artifactId>assertj-core</artifactId>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
+      <pluginManagement>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <version>3.6.0</version>
+	        <configuration>
+	          <source>1.8</source>
+	          <target>1.8</target>
+	        </configuration>
+          </plugin>
+        </plugins>
+      </pluginManagement>
+    </build>
+  
+</project>
