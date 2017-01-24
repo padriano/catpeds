@@ -23,6 +23,7 @@
     <junit.version>4.12</junit.version>
     <assertj.version>3.6.1</assertj.version>
     <mockito.version>2.6.1</mockito.version>
+    <powermock.version>1.6.6</powermock.version>
   </properties>
 
   <developers>
@@ -76,6 +77,18 @@
         <version>${assertj.version}</version>
         <scope>test</scope>
       </dependency>
+      <dependency>
+        <groupId>org.powermock</groupId>
+        <artifactId>powermock-module-junit4</artifactId>
+        <version>${powermock.version}</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.powermock</groupId>
+        <artifactId>powermock-api-mockito</artifactId>
+        <version>${powermock.version}</version>
+        <scope>test</scope>
+      </dependency>
     </dependencies>
   </dependencyManagement>
   
@@ -93,6 +106,16 @@
     <dependency>
       <groupId>org.assertj</groupId>
       <artifactId>assertj-core</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.powermock</groupId>
+      <artifactId>powermock-module-junit4</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.powermock</groupId>
+      <artifactId>powermock-api-mockito</artifactId>
       <scope>test</scope>
     </dependency>
   </dependencies>
