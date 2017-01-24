@@ -29,11 +29,11 @@
         <artifactId>guava</artifactId>
         <version>${guava.version}</version>
       </dependency>
-    <dependency>
-      <groupId>org.jsoup</groupId>
-      <artifactId>jsoup</artifactId>
+      <dependency>
+        <groupId>org.jsoup</groupId>
+        <artifactId>jsoup</artifactId>
         <version>${jsoup.version}</version>
-    </dependency>
+      </dependency>
 
       <!-- CatPeds modules -->
       <dependency>
