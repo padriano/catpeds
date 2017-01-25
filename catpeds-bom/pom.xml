@@ -20,6 +20,7 @@
     <java.version>1.8</java.version>
     <guava.version>21.0</guava.version>
     <jsoup.version>1.10.2</jsoup.version>
+    <inject.version>1</inject.version>
   </properties>
 
   <dependencyManagement>
@@ -34,6 +35,11 @@
         <artifactId>jsoup</artifactId>
         <version>${jsoup.version}</version>
       </dependency>
+	  <dependency>
+	    <groupId>javax.inject</groupId>
+	    <artifactId>javax.inject</artifactId>
+        <version>${inject.version}</version>
+	  </dependency>
 
       <!-- CatPeds modules -->
       <dependency>
