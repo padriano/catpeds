@@ -50,14 +50,12 @@ class PawpedsDocumentParser {
 			}
 
 			// read the result table
-			// TODO optimise - shouldn't need table loop and list could be initialised with row size
-			List<PedigreeSearchResult> pedigreeResults = new ArrayList<>();
-			for (Element table : searchDocument.select("table.searchresult")) {
-				for (Element row : table.select("tr")) {
-					Elements rowCells = row.select("td");
-					if (rowCells.size() == 6) {
-						pedigreeResults.add(parseSearchResultRow(rowCells));
-					}
+			Elements resultTableRows = searchDocument.select("table.searchresult").get(0).select("tr");
+			List<PedigreeSearchResult> pedigreeResults = new ArrayList<>(resultTableRows.size());
+			for (Element row : resultTableRows) {
+				Elements rowCells = row.select("td");
+				if (rowCells.size() == 6) {
+					pedigreeResults.add(parseSearchResultRow(rowCells));
 				}
 			}
 			return pedigreeResults;
