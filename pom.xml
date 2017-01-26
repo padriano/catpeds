@@ -134,6 +134,21 @@
           <artifactId>maven-surefire-plugin</artifactId>
           <version>2.19.1</version>
         </plugin>
+		<plugin>
+		    <groupId>org.jacoco</groupId>
+		    <artifactId>jacoco-maven-plugin</artifactId>
+		    <version>0.7.6.201602180812</version>
+		</plugin>
+        <plugin>
+            <groupId>org.eluder.coveralls</groupId>
+            <artifactId>coveralls-maven-plugin</artifactId>
+            <version>4.3.0</version>
+        </plugin>
+        <plugin>
+	        <groupId>org.apache.maven.plugins</groupId>
+	        <artifactId>maven-project-info-reports-plugin</artifactId>
+	        <version>2.9</version>
+       </plugin>
       </plugins>
     </pluginManagement>
     
@@ -152,11 +167,77 @@
         <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-surefire-plugin</artifactId>
-            <configuration>
-                <argLine>-Duser.language=en -Duser.region=UK</argLine>
-            </configuration>
+        </plugin>
+        <plugin>
+            <groupId>org.jacoco</groupId>
+            <artifactId>jacoco-maven-plugin</artifactId>
+            <executions>
+                <execution>
+                    <id>prepare-agent</id>
+                    <goals>
+                        <goal>prepare-agent</goal>
+                    </goals>
+                </execution>
+            </executions>
+        </plugin>
+		<plugin>
+		    <groupId>org.eluder.coveralls</groupId>
+		    <artifactId>coveralls-maven-plugin</artifactId>
+		    <configuration>
+		        <repoToken>mIKoHBZFAnQOIxdEL0MQGAxSampVGPnCu</repoToken>
+		        <jacocoReports>
+				    <jacocoReport>module1/target/site/jacoco-it/jacoco.xml</jacocoReport>
+			    </jacocoReports>
+		    </configuration>
+		</plugin>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-project-info-reports-plugin</artifactId>
         </plugin>
     </plugins>
   </build>
   
+  <reporting>
+      <plugins>
+          <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-project-info-reports-plugin</artifactId>
+              <configuration>
+                  <dependencyDetailsEnabled>false</dependencyDetailsEnabled>
+                  <dependencyLocationsEnabled>false</dependencyLocationsEnabled>
+              </configuration>
+              <reportSets>
+                  <reportSet>
+                      <reports>
+                          <report>index</report>
+                          <report>summary</report>
+                          <report>dependency-info</report>
+                          <report>license</report>
+                          <report>scm</report>
+                          <report>issue-tracking</report>
+                          <report>dependencies</report>
+                          <report>dependency-convergence</report>
+                          <report>modules</report>
+                      </reports>
+                  </reportSet>
+              </reportSets>
+          </plugin>
+          <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-javadoc-plugin</artifactId>
+              <configuration>
+                  <quiet>true</quiet>
+              </configuration>
+              <reportSets>
+                  <reportSet>
+                      <id>html</id>
+                      <reports>
+                          <report>javadoc</report>
+                      </reports>
+                  </reportSet>
+              </reportSets>
+          </plugin>
+      </plugins>
+  </reporting>
+
 </project>
