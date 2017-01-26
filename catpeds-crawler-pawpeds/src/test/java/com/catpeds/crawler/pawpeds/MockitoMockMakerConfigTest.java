@@ -23,7 +23,7 @@ import com.google.common.io.Files;
  * @author padriano
  *
  */
-public class TestMockitoMockMakerConfig {
+public class MockitoMockMakerConfigTest {
 
 	/**
 	 * Test that the Mockito plugin file exist in the classpath
