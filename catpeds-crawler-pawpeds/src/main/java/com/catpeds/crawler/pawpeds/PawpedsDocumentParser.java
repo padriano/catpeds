@@ -84,14 +84,15 @@ class PawpedsDocumentParser {
 		long id = getIdFromAnchor(anchor);
 
 		String name = anchor.text().trim();
-		String title = rowCells.get(0).text().replace("\u00a0", " ").trim();
+		final String nbsp = "\u00a0";
+		String title = rowCells.get(0).text().replace(nbsp, " ").trim();
 		String genderAsText = rowCells.get(2).text().trim();
 		Gender gender = null;
 		if (Objects.equal("M", genderAsText) || Objects.equal("F", genderAsText)) {
 			gender = Gender.valueOf(genderAsText);
 		}
-		String ems = rowCells.get(3).text().replace("\u00a0", " ").trim();
-		LocalDate dob = LocalDate.parse(rowCells.get(4).text().replace("\u00a0", " ").trim());
+		String ems = rowCells.get(3).text().replace(nbsp, " ").trim();
+		LocalDate dob = LocalDate.parse(rowCells.get(4).text().replace(nbsp, " ").trim());
 
 		return new PedigreeSearchResultBuilder().withId(id).withName(name).withGender(gender).withTitle(title)
 				.withEms(ems).withDob(dob).build();
