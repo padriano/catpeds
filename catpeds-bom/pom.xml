@@ -34,11 +34,11 @@
         <artifactId>jsoup</artifactId>
         <version>${jsoup.version}</version>
       </dependency>
-	  <dependency>
-	    <groupId>javax.inject</groupId>
-	    <artifactId>javax.inject</artifactId>
+      <dependency>
+        <groupId>javax.inject</groupId>
+        <artifactId>javax.inject</artifactId>
         <version>${inject.version}</version>
-	  </dependency>
+      </dependency>
 
       <!-- CatPeds modules -->
       <dependency>

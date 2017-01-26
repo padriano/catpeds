@@ -86,8 +86,8 @@
         <scope>test</scope>
       </dependency>
       <dependency>
-	    <groupId>pl.pragmatists</groupId>
-	    <artifactId>JUnitParams</artifactId>
+        <groupId>pl.pragmatists</groupId>
+        <artifactId>JUnitParams</artifactId>
         <version>${JUnitParams.version}</version>
         <scope>test</scope>
       </dependency>
@@ -116,8 +116,8 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-	  <groupId>pl.pragmatists</groupId>
-	  <artifactId>JUnitParams</artifactId>
+      <groupId>pl.pragmatists</groupId>
+      <artifactId>JUnitParams</artifactId>
       <scope>test</scope>
     </dependency>
   </dependencies>
@@ -135,21 +135,26 @@
           <artifactId>maven-surefire-plugin</artifactId>
           <version>2.19.1</version>
         </plugin>
-		<plugin>
-		    <groupId>org.jacoco</groupId>
-		    <artifactId>jacoco-maven-plugin</artifactId>
-		    <version>0.7.8</version>
-		</plugin>
+        <plugin>
+            <groupId>org.jacoco</groupId>
+            <artifactId>jacoco-maven-plugin</artifactId>
+            <version>0.7.8</version>
+        </plugin>
         <plugin>
             <groupId>org.eluder.coveralls</groupId>
             <artifactId>coveralls-maven-plugin</artifactId>
             <version>4.3.0</version>
         </plugin>
         <plugin>
-	        <groupId>org.apache.maven.plugins</groupId>
-	        <artifactId>maven-project-info-reports-plugin</artifactId>
-	        <version>2.9</version>
-       </plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-project-info-reports-plugin</artifactId>
+            <version>2.9</version>
+        </plugin>
+        <plugin>
+          <groupId>org.sonarsource.scanner.maven</groupId>
+          <artifactId>sonar-maven-plugin</artifactId>
+          <version>3.2</version>
+        </plugin>
       </plugins>
     </pluginManagement>
     
@@ -181,16 +186,16 @@
                 </execution>
             </executions>
         </plugin>
-		<plugin>
-		    <groupId>org.eluder.coveralls</groupId>
-		    <artifactId>coveralls-maven-plugin</artifactId>
-		    <configuration>
-		        <repoToken>mIKoHBZFAnQOIxdEL0MQGAxSampVGPnCu</repoToken>
-		        <jacocoReports>
-				    <jacocoReport>module1/target/site/jacoco-it/jacoco.xml</jacocoReport>
-			    </jacocoReports>
-		    </configuration>
-		</plugin>
+        <plugin>
+            <groupId>org.eluder.coveralls</groupId>
+            <artifactId>coveralls-maven-plugin</artifactId>
+            <configuration>
+                <repoToken>mIKoHBZFAnQOIxdEL0MQGAxSampVGPnCu</repoToken>
+                <jacocoReports>
+                    <jacocoReport>module1/target/site/jacoco-it/jacoco.xml</jacocoReport>
+                </jacocoReports>
+            </configuration>
+        </plugin>
         <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-project-info-reports-plugin</artifactId>
