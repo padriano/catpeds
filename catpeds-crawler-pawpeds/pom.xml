@@ -6,7 +6,7 @@
   <parent>
     <groupId>com.catpeds</groupId>
     <artifactId>catpeds</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>${catpeds.version}</version>
   </parent>
 
   <artifactId>catpeds-crawler-pawpeds</artifactId>
@@ -17,7 +17,7 @@
       <dependency>
         <groupId>com.catpeds</groupId>
         <artifactId>catpeds-bom</artifactId>
-        <version>${project.version}</version>
+        <version>${catpeds.version}</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
