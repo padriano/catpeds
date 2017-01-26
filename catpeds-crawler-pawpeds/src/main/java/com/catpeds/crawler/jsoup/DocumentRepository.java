@@ -14,6 +14,7 @@ import org.jsoup.nodes.Document;
  * @author padriano
  *
  */
+@FunctionalInterface
 public interface DocumentRepository {
 
 	/**
