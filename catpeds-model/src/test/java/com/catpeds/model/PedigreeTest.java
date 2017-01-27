@@ -43,4 +43,5 @@ public class PedigreeTest {
 				+ "nationalityCountryCode=SE, locationCountryCode=GB, title=CH, inbreeding=12.3, sire=22, dam=11}";
 		assertEquals(expectedResult, result);
 	}
+
 }
