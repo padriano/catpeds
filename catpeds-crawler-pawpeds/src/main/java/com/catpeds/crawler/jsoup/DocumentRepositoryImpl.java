@@ -30,7 +30,7 @@ class DocumentRepositoryImpl implements DocumentRepository {
 		try {
 			return Optional.of(Jsoup.connect(url).get());
 		} catch (SocketTimeoutException e) {
-			LOGGER.warn("Timoute retrieving: {}", url);
+			LOGGER.warn("Timoute retrieving: {} \n{}", url, e);
 			return Optional.empty();
 		} catch (IOException e) {
 			throw e;
