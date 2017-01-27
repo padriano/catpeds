@@ -9,6 +9,8 @@ import java.util.Optional;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * {@link DocumentRepository} default implementation using jsoup.
@@ -18,6 +20,8 @@ import org.jsoup.nodes.Document;
  */
 class DocumentRepositoryImpl implements DocumentRepository {
 
+	private static final Logger LOGGER = LoggerFactory.getLogger(DocumentRepositoryImpl.class);
+
 	/**
 	 * @see com.catpeds.crawler.pawpeds.DocumentRepository#get(java.lang.String)
 	 */
@@ -26,6 +30,7 @@ class DocumentRepositoryImpl implements DocumentRepository {
 		try {
 			return Optional.of(Jsoup.connect(url).get());
 		} catch (SocketTimeoutException e) {
+			LOGGER.warn("Timoute retrieving: {}", url);
 			return Optional.empty();
 		} catch (IOException e) {
 			throw e;
