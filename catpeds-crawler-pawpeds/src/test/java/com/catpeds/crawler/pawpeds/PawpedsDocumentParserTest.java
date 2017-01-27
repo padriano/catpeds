@@ -2,6 +2,8 @@ package com.catpeds.crawler.pawpeds;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import java.io.File;
 import java.time.LocalDate;
@@ -9,6 +11,8 @@ import java.util.List;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
+import org.jsoup.select.Selector.SelectorParseException;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -83,15 +87,37 @@ public class PawpedsDocumentParserTest {
 
 	/**
 	 * Test that {@link PawpedsDocumentParser#parseSearch(Document)} throws an
-	 * {@link IllegalArgumentException} if there is an error in the document
-	 * format.
+	 * {@link IllegalArgumentException} if there is unexpected format in the
+	 * document.
 	 */
 	@Test(expected = IllegalArgumentException.class)
-	public void testParseSearchWithError() throws Exception {
+	public void testParseSearchWithUnexpectedFormat() throws Exception {
 		// Given
 		// loading file with error
 		File input = new File(Test.class.getResource("/pawpeds/error.html").toURI());
 		Document document = Jsoup.parse(input, "UTF-8");
+
+		// When
+		pawpedsDocumentParser.parseSearch(document);
+
+		// Then
+		// the exception is expected
+	}
+
+	/**
+	 * Test that {@link PawpedsDocumentParser#parseSearch(Document)} throws an
+	 * {@link IllegalArgumentException} if there is an jsoup parsing error.
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testJsoupSelectorUnexpectedError() throws Exception {
+		// Given
+		Document document = mock(Document.class);
+
+		Elements noErrorElement = mock(Elements.class);
+		when(noErrorElement.text()).thenReturn("");
+		when(document.select("th.error")).thenReturn(noErrorElement);
+
+		when(document.select("table.searchresult")).thenThrow(SelectorParseException.class);
 
 		// When
 		pawpedsDocumentParser.parseSearch(document);

@@ -13,6 +13,8 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.jsoup.select.Selector.SelectorParseException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.catpeds.model.Pedigree.Gender;
 import com.catpeds.model.PedigreeSearchResult;
@@ -26,6 +28,8 @@ import com.google.common.base.Objects;
  *
  */
 class PawpedsDocumentParser {
+
+	private static final Logger LOGGER = LoggerFactory.getLogger(PawpedsDocumentParser.class);
 
 	private static final Pattern URL_ID_PATTERN = Pattern.compile("(.*)id=(\\d+)(.*)");
 
@@ -60,19 +64,20 @@ class PawpedsDocumentParser {
 			}
 			return pedigreeResults;
 
-		} catch (IllegalArgumentException e) {
-			throw e;
-
 		} catch (SelectorParseException e) {
 			// check if the exception is caused by expected no results message or an error occurred
 			String errorMessage = searchDocument.select("th.error").text();
 			if (!Objects.equal(errorMessage, "Sorry, nothing found")) {
-				throw new IllegalArgumentException(errorMessage);
+				throw new IllegalArgumentException(errorMessage, e);
 			}
 
+		} catch (IllegalArgumentException e) {
+			// catch and re-throw so it isn't caught in next block
+			throw e;
+
 		} catch (Exception e) {
-			System.err.println("Exception while parsing search result with document: \n" + searchDocument.toString());
-			e.printStackTrace();
+			LOGGER.error("Unexpected exception occurred. {}", e);
+			LOGGER.error("Error while parsing search result for document: \n{}", searchDocument);
 		}
 
 		return Arrays.asList();
