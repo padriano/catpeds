@@ -6,12 +6,13 @@ package com.catpeds.crawler.pawpeds;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import javax.inject.Inject;
 
 import org.jsoup.nodes.Document;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.catpeds.crawler.jsoup.DocumentRepository;
 import com.catpeds.model.PedigreeSearchCriteria;
@@ -24,6 +25,8 @@ import com.catpeds.model.PedigreeSearchResult;
  *
  */
 class PawpedsRepositoryImpl implements PawpedsRepository {
+
+	private static final Logger LOGGER = LoggerFactory.getLogger(PawpedsRepositoryImpl.class);
 
 	private DocumentRepository documentRepository;
 	private PawpedsUrlService pawpedsUrlService;
@@ -49,17 +52,17 @@ class PawpedsRepositoryImpl implements PawpedsRepository {
 			if (searchDocument.isPresent()) {
 				// successful retrieving the document at first try
 				return pawpedsSearchResultParser.parseSearch(searchDocument.get());
-
-			} else {
-				// this means that there was a timeout. retrying...
-				searchDocument = documentRepository.get(searchUrl);
+			}
+			// this means that there was a timeout. retrying...
+			searchDocument = documentRepository.get(searchUrl);
+			if (searchDocument.isPresent()) {
 				return pawpedsSearchResultParser.parseSearch(searchDocument.get());
 			}
 
-		} catch (NoSuchElementException e) {
-			// TODO log failed criteria and return empty
+			LOGGER.warn("Timeout retrieving advanced search result document from {}", searchUrl);
+
 		} catch (IOException e) {
-			// TODO log exception
+			LOGGER.error("Unexpected exception occurred", e);
 		}
 
 		return Arrays.asList();

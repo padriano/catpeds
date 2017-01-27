@@ -139,4 +139,28 @@ public class PawpedsRepositoryImplTest {
 		verify(documentRepository, times(2)).get(searchUrl);
 		verifyZeroInteractions(pawpedsSearchResultParser);
 	}
+
+	/**
+	 * Test that {@link PawpedsRepositoryImpl#findAll(PedigreeSearchCriteria)}
+	 * returns an empty collection when an IOException occurs.
+	 */
+	@Test
+	public void testFindAllWithUnexpectedException() throws IOException {
+		// Given
+		String searchUrl = "http://foo.bar";
+		when(pawpedsUrlService.getAdvancedSearchUrl(criteria)).thenReturn(searchUrl);
+
+		// it will not find a document
+		when(documentRepository.get(searchUrl)).thenThrow(IOException.class);
+
+		// When
+		Collection<PedigreeSearchResult> result = pawpedsRepository.findAll(criteria);
+
+		// Then
+		assertTrue("Not expecting search results", result.isEmpty());
+		// check that there was only one invocation to the document repository/
+		// no retry due to exception being thrown
+		verify(documentRepository).get(searchUrl);
+		verifyZeroInteractions(pawpedsSearchResultParser);
+	}
 }
