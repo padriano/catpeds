@@ -20,6 +20,7 @@
     <guava.version>21.0</guava.version>
     <jsoup.version>1.10.2</jsoup.version>
     <inject.version>1</inject.version>
+    <slf4j.version>1.7.21</slf4j.version>
   </properties>
 
   <dependencyManagement>
@@ -39,12 +40,23 @@
         <artifactId>javax.inject</artifactId>
         <version>${inject.version}</version>
       </dependency>
+      <dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>slf4j-api</artifactId>
+        <version>${slf4j.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>slf4j-simple</artifactId>
+        <version>${slf4j.version}</version>
+        <scope>runtime</scope>
+      </dependency>
 
       <!-- CatPeds modules -->
       <dependency>
         <groupId>com.catpeds</groupId>
         <artifactId>catpeds-model</artifactId>
-        <version>${project.version}</version>
+        <version>${catpeds.version}</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
