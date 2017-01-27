@@ -1,7 +1,7 @@
 ---
 engines:
   fixme:
-    enabled: false
+    enabled: trueø
 ratings:
   paths: []
 exclude_paths: []
