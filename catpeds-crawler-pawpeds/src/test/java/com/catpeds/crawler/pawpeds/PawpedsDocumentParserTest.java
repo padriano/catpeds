@@ -125,4 +125,23 @@ public class PawpedsDocumentParserTest {
 		// Then
 		// the exception is expected
 	}
+
+	/**
+	 * Test that {@link PawpedsDocumentParser#parseSearch(Document)} throws an
+	 * {@link Exception} that isn't {@link IllegalArgumentException} the return
+	 * is empty.
+	 */
+	public void testUnexpectedException() throws Exception {
+		// Given
+		Document document = mock(Document.class);
+
+		Elements noErrorElement = mock(Elements.class);
+		when(noErrorElement.text()).thenThrow(RuntimeException.class);
+
+		// When
+		List<PedigreeSearchResult> result = pawpedsDocumentParser.parseSearch(document);
+
+		// Then
+		assertTrue("Not expecting results", result.isEmpty());
+	}
 }
