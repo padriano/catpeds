@@ -10,7 +10,6 @@ import java.io.File;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 
-import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -64,29 +63,12 @@ public class MockitoMockMakerConfigTest {
 	}
 
 	/**
-	 * Mockito 2 doesn't allow mocking static methods. This is possible with
-	 * PowerMock but it's still not compatible with the latest Mockito version,
-	 * so this test is Ignored until then.
-	 */
-	@Test
-	@Ignore
-	public void testMockingStatics() {
-		when(FinalClass.staticMethod()).thenReturn("not anymore");
-
-		assertNotEquals("Mocked method cannot have the same value", "not anymore", FinalClass.staticMethod());
-	}
-
-	/**
 	 * Auxiliary final class to be used in this test
 	 * @author padriano
 	 *
 	 */
 	private final static class FinalClass {
 		final String finalMethod() {
-			return "something";
-		}
-
-		static String staticMethod() {
 			return "something";
 		}
 	}
