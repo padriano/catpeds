@@ -14,6 +14,7 @@ import com.catpeds.model.PedigreeSearchResult;
  * @author padriano
  *
  */
+@FunctionalInterface
 public interface PawpedsRepository {
 
 	/**
