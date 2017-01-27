@@ -189,12 +189,6 @@
         <plugin>
             <groupId>org.eluder.coveralls</groupId>
             <artifactId>coveralls-maven-plugin</artifactId>
-            <configuration>
-                <repoToken>mIKoHBZFAnQOIxdEL0MQGAxSampVGPnCu</repoToken>
-                <jacocoReports>
-                    <jacocoReport>module1/target/site/jacoco-it/jacoco.xml</jacocoReport>
-                </jacocoReports>
-            </configuration>
         </plugin>
         <plugin>
             <groupId>org.apache.maven.plugins</groupId>
