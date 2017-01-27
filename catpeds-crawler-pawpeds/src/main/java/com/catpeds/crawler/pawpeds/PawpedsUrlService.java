@@ -11,7 +11,7 @@ import com.google.common.base.Strings;
  */
 class PawpedsUrlService {
 
-	// TODO get the paths from configuration instead
+	// improvement can be done to get the paths from configuration instead
 	private static final String URL_ADVANCED_SEARCH = "https://www.pawpeds.com/db/?a=as&p=nfo&date=iso&name=&ems=&sex=B&"
 			+ "born_after=%s&born_before=%s&born_in=%s&lives_in=%s"
 			+ "&picture=B&health_info=B&g=2";
