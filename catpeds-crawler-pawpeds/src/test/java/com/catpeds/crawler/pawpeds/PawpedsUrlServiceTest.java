@@ -89,4 +89,22 @@ public class PawpedsUrlServiceTest {
 				+ "&picture=B&health_info=B&g=2";
 		assertEquals(expectedUrl, url);
 	}
+
+	/**
+	 * Test that
+	 * {@link PawpedsUrlService#getOffspringsSearchUrl(long)}
+	 * creates the correct URL filtering using the parent's id.
+	 */
+	@Test
+	public void testGetOffspringsSearchUrl() {
+		// Given
+		long parentId = 1212;
+
+		// When
+		String url = pawpedsUrlService.getOffspringsSearchUrl(parentId);
+
+		// Then
+		String expectedUrl = "https://www.pawpeds.com/db/?a=o&id=" + parentId + "&g=2&p=nfo&date=iso&o=ajgrep";
+		assertEquals(expectedUrl, url);
+	}
 }
