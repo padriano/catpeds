@@ -107,4 +107,21 @@ public class PawpedsUrlServiceTest {
 		String expectedUrl = "https://www.pawpeds.com/db/?a=o&id=" + parentId + "&g=2&p=nfo&date=iso&o=ajgrep";
 		assertEquals(expectedUrl, url);
 	}
+
+	/**
+	 * Test that {@link PawpedsUrlService#getPedigreeUrl(long)} creates the
+	 * correct URL for the cat's pedigree.
+	 */
+	@Test
+	public void testGetPedigreeUrl() {
+		// Given
+		long id = 1212;
+
+		// When
+		String url = pawpedsUrlService.getPedigreeUrl(id);
+
+		// Then
+		String expectedUrl = "https://www.pawpeds.com/db/?a=p&v=fi&id=" + id + "&g=1&p=nfo&date=iso&o=ajgrep";
+		assertEquals(expectedUrl, url);
+	}
 }

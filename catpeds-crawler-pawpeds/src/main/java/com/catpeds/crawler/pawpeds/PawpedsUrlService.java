@@ -18,6 +18,8 @@ class PawpedsUrlService {
 
 	private static final String URL_OFFSPRING_SEARCH = "https://www.pawpeds.com/db/?a=o&id=%d&g=2&p=nfo&date=iso&o=ajgrep";
 
+	private static final String URL_PEDIGREE = "https://www.pawpeds.com/db/?a=p&v=fi&id=%d&g=1&p=nfo&date=iso&o=ajgrep";
+
 	/**
 	 * Get the URL that represents a query on PawPeds for advanced search for
 	 * the matching {@link PedigreeSearchCriteria}.
@@ -49,7 +51,18 @@ class PawpedsUrlService {
 	 * @return URL string representation of the query
 	 */
 	public String getOffspringsSearchUrl(long id) {
-
 		return String.format(URL_OFFSPRING_SEARCH, id);
+	}
+
+	/**
+	 * Get the URL that represents one generation PawPeds pedigree with complete
+	 * inbreeding for the specified cat.
+	 *
+	 * @param id
+	 *            cat's pawpeds identifier
+	 * @return URL link to pedigree
+	 */
+	public String getPedigreeUrl(long id) {
+		return String.format(URL_PEDIGREE, id);
 	}
 }
