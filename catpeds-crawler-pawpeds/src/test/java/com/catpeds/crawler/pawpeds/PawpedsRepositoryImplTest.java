@@ -163,4 +163,82 @@ public class PawpedsRepositoryImplTest {
 		verify(documentRepository).get(searchUrl);
 		verifyZeroInteractions(pawpedsSearchResultParser);
 	}
+
+	/**
+	 * Test that {@link PawpedsRepositoryImpl#findAllOffspring(long)}
+	 * delegates the URL calculation, HTML document retrieval and the document
+	 * parsing to its dependencies (offspring search).
+	 */
+	@Test
+	public void testFindAllOffspringSuccessful() throws IOException {
+		// Given
+		String searchUrl = "http://foo.bar";
+		long id = 1212;
+		when(pawpedsUrlService.getOffspringsSearchUrl(id)).thenReturn(searchUrl);
+
+		// it will find a document in the first invocation
+		Document document = mock(Document.class);
+		when(documentRepository.get(searchUrl)).thenReturn(Optional.of(document));
+		// return a search result
+		PedigreeSearchResult offspringSearchResult = mock(PedigreeSearchResult.class);
+		when(pawpedsSearchResultParser.parseOffsprings(document)).thenReturn(Arrays.asList(offspringSearchResult));
+
+		// When
+		Collection<PedigreeSearchResult> result = pawpedsRepository.findAllOffspring(id);
+
+		// Then
+		assertEquals("Expecting one search result", 1, result.size());
+		assertEquals("Expecting one search result", offspringSearchResult, Iterables.getOnlyElement(result));
+		// check that there was only one invocation to the document repository
+		verify(documentRepository).get(searchUrl);
+		verify(pawpedsSearchResultParser).parseOffsprings(document);
+	}
+
+	/**
+	 * Test that {@link PawpedsRepositoryImpl#findAllOffspring(long)}
+	 * returns empty result on document retrieval timeout.
+	 */
+	@Test
+	public void testFindAllOffspringTimeout() throws IOException {
+		// Given
+		String searchUrl = "http://foo.bar";
+		long id = 1212;
+		when(pawpedsUrlService.getOffspringsSearchUrl(id)).thenReturn(searchUrl);
+
+		// it will not find a document
+		when(documentRepository.get(searchUrl)).thenReturn(Optional.empty());
+
+		// When
+		Collection<PedigreeSearchResult> result = pawpedsRepository.findAllOffspring(id);
+
+		// Then
+		assertTrue("Expecting no search result", result.isEmpty());
+		// check that there was a retry
+		verify(documentRepository, times(2)).get(searchUrl);
+		verifyZeroInteractions(pawpedsSearchResultParser);
+	}
+
+	/**
+	 * Test that {@link PawpedsRepositoryImpl#findAllOffspring(long)}
+	 * returns an empty collection when an IOException occurs.
+	 */
+	@Test
+	public void testFindAllOffspringWithUnexpectedException() throws IOException {
+		// Given
+		String searchUrl = "http://foo.bar";
+		long id = 1212;
+		when(pawpedsUrlService.getOffspringsSearchUrl(id)).thenReturn(searchUrl);
+
+		// it will not find a document
+		when(documentRepository.get(searchUrl)).thenThrow(IOException.class);
+
+		// When
+		Collection<PedigreeSearchResult> result = pawpedsRepository.findAllOffspring(id);
+
+		// Then
+		assertTrue("Expecting no search result", result.isEmpty());
+		// check that there was only one invocation to the document repository
+		verify(documentRepository).get(searchUrl);
+		verifyZeroInteractions(pawpedsSearchResultParser);
+	}
 }

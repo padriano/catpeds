@@ -117,7 +117,7 @@ public class PawpedsDocumentParserTest {
 		when(noErrorElement.text()).thenReturn("");
 		when(document.select("th.error")).thenReturn(noErrorElement);
 
-		when(document.select("table.searchresult")).thenThrow(SelectorParseException.class);
+		when(document.select("table.searchresult tr.searchresult:has(td.searchresult)")).thenThrow(SelectorParseException.class);
 
 		// When
 		pawpedsDocumentParser.parseSearch(document);
@@ -131,17 +131,47 @@ public class PawpedsDocumentParserTest {
 	 * {@link Exception} that isn't {@link IllegalArgumentException} the return
 	 * is empty.
 	 */
+	@Test
 	public void testUnexpectedException() throws Exception {
 		// Given
-		Document document = mock(Document.class);
-
 		Elements noErrorElement = mock(Elements.class);
 		when(noErrorElement.text()).thenThrow(RuntimeException.class);
+
+		Document document = mock(Document.class);
+		when(document.select("th.error")).thenReturn(noErrorElement);
 
 		// When
 		List<PedigreeSearchResult> result = pawpedsDocumentParser.parseSearch(document);
 
 		// Then
 		assertTrue("Not expecting results", result.isEmpty());
+	}
+
+	/**
+	 * Test that {@link PawpedsDocumentParser#parseOffsprings(Document)} parses a
+	 * document with results correctly.
+	 */
+	@Test
+	public void testParseOffspringsWithFoundResults() throws Exception {
+		// Given
+		// loading file with 4 results
+		File input = new File(Test.class.getResource("/pawpeds/offsprings.html").toURI());
+		Document document = Jsoup.parse(input, "UTF-8");
+
+		PedigreeSearchResult firstExpectedResult = new PedigreeSearchResultBuilder().withId(1262490l).withTitle("")
+				.withName("Padawan Adi Gallia").withGender(Gender.F).withEms("NFO a 09 24")
+				.withDob(LocalDate.of(2015, 4, 15)).build();
+		PedigreeSearchResult secondExpectedResult = new PedigreeSearchResultBuilder().withId(1262488l).withTitle("CH")
+				.withName("Padawan Alderaan").withGender(Gender.M).withEms("NFO a 03 24")
+				.withDob(LocalDate.of(2015, 4, 15)).build();
+
+		// When
+		List<PedigreeSearchResult> result = pawpedsDocumentParser.parseOffsprings(document);
+
+		// Then
+		assertEquals("Expecting 4 results", 4, result.size());
+		PedigreeSearchResultComparator comparator = new PedigreeSearchResultComparator();
+		assertEquals("Unexpected first result", 0, comparator.compare(result.get(0), firstExpectedResult));
+		assertEquals("Unexpected second result", 0, comparator.compare(result.get(1), secondExpectedResult));
 	}
 }

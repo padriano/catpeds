@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Optional;
+import java.util.function.Function;
 
 import javax.inject.Inject;
 
@@ -46,20 +47,33 @@ class PawpedsRepositoryImpl implements PawpedsRepository {
 	@Override
 	public Collection<PedigreeSearchResult> findAll(PedigreeSearchCriteria criteria) {
 		String searchUrl = pawpedsUrlService.getAdvancedSearchUrl(criteria);
+		return findAndParseawpedsDocument(searchUrl, document -> pawpedsSearchResultParser.parseSearch(document));
+	}
 
+	/**
+	 * @see com.catpeds.crawler.pawpeds.PawpedsRepository#findAllOffspring(long)
+	 */
+	@Override
+	public Collection<PedigreeSearchResult> findAllOffspring(long id) {
+		String offspringSearchUrl = pawpedsUrlService.getOffspringsSearchUrl(id);
+		return findAndParseawpedsDocument(offspringSearchUrl, document -> pawpedsSearchResultParser.parseOffsprings(document));
+	}
+
+	Collection<PedigreeSearchResult> findAndParseawpedsDocument(String url,
+			Function<Document, Collection<PedigreeSearchResult>> parserFunction) {
 		try {
-			Optional<Document> searchDocument = documentRepository.get(searchUrl);
+			Optional<Document> searchDocument = documentRepository.get(url);
 			if (searchDocument.isPresent()) {
 				// successful retrieving the document at first try
-				return pawpedsSearchResultParser.parseSearch(searchDocument.get());
+				return parserFunction.apply(searchDocument.get());
 			}
 			// this means that there was a timeout. retrying...
-			searchDocument = documentRepository.get(searchUrl);
+			searchDocument = documentRepository.get(url);
 			if (searchDocument.isPresent()) {
-				return pawpedsSearchResultParser.parseSearch(searchDocument.get());
+				return parserFunction.apply(searchDocument.get());
 			}
 
-			LOGGER.warn("Timeout retrieving advanced search result document from {}", searchUrl);
+			LOGGER.warn("Timeout retrieving document from {}", url);
 
 		} catch (IOException e) {
 			LOGGER.error("Unexpected exception occurred", e);

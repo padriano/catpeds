@@ -3,11 +3,11 @@ package com.catpeds.crawler.pawpeds;
 import static com.google.common.base.Strings.isNullOrEmpty;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -34,7 +34,7 @@ class PawpedsDocumentParser {
 	private static final Pattern URL_ID_PATTERN = Pattern.compile("(.*)id=(\\d+)(.*)");
 
 	/**
-	 * Converts a {@link Document} into {@link PedigreeSearchResult}'s.
+	 * Converts a search {@link Document} into {@link PedigreeSearchResult}'s.
 	 *
 	 * @param searchDocument
 	 *            HTML document with the search results content
@@ -42,10 +42,14 @@ class PawpedsDocumentParser {
 	 *         parsed pedigree results
 	 */
 	public List<PedigreeSearchResult> parseSearch(Document searchDocument) {
+		return parseSearchTableRows(searchDocument, "table.searchresult tr.searchresult:has(td.searchresult)");
+	}
+
+	private List<PedigreeSearchResult> parseSearchTableRows(Document document, String rowsJQuery) {
 
 		try {
 			// check if an error occurred
-			String errorMessage = searchDocument.select("th.error").text();
+			String errorMessage = document.select("th.error").text();
 			if (!isNullOrEmpty(errorMessage)) {
 				if (Objects.equal(errorMessage, "Sorry, nothing found")) {
 					return Arrays.asList();
@@ -54,19 +58,12 @@ class PawpedsDocumentParser {
 			}
 
 			// read the result table
-			Elements resultTableRows = searchDocument.select("table.searchresult").get(0).select("tr");
-			List<PedigreeSearchResult> pedigreeResults = new ArrayList<>(resultTableRows.size());
-			for (Element row : resultTableRows) {
-				Elements rowCells = row.select("td");
-				if (rowCells.size() == 6) {
-					pedigreeResults.add(parseSearchResultRow(rowCells));
-				}
-			}
-			return pedigreeResults;
+			Elements resultTableRows = document.select(rowsJQuery);
+			return resultTableRows.stream().map(row -> parseSearchResultRow(row.select("td"))).collect(Collectors.toList());
 
 		} catch (SelectorParseException e) {
 			// check if the exception is caused by expected no results message or an error occurred
-			String errorMessage = searchDocument.select("th.error").text();
+			String errorMessage = document.select("th.error").text();
 			if (!Objects.equal(errorMessage, "Sorry, nothing found")) {
 				throw new IllegalArgumentException(errorMessage, e);
 			}
@@ -77,7 +74,7 @@ class PawpedsDocumentParser {
 
 		} catch (Exception e) {
 			LOGGER.error("Unexpected exception occurred. {}", e);
-			LOGGER.error("Error while parsing search result for document: \n{}", searchDocument);
+			LOGGER.error("Error while parsing search result for document: \n{}", document);
 		}
 
 		return Arrays.asList();
@@ -111,5 +108,17 @@ class PawpedsDocumentParser {
 			throw new IllegalArgumentException(link);
 		}
 		return Long.valueOf(idMatcher.group(2));
+	}
+
+	/**
+	 * Converts an offsprings {@link Document} into {@link PedigreeSearchResult}'s.
+	 *
+	 * @param offspringsDocument
+	 *            HTML document with the offspring results content
+	 * @return a {@link List} of {@link PedigreeSearchResult} representing the
+	 *         parsed pedigree results
+	 */
+	public List<PedigreeSearchResult> parseOffsprings(Document offspringsDocument) {
+		return parseSearchTableRows(offspringsDocument, "table.offspring tr:has(td.offspring)");
 	}
 }
