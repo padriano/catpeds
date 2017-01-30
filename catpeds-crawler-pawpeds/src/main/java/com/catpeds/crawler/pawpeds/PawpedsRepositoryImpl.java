@@ -47,7 +47,7 @@ class PawpedsRepositoryImpl implements PawpedsRepository {
 	@Override
 	public Collection<PedigreeSearchResult> findAll(PedigreeSearchCriteria criteria) {
 		String searchUrl = pawpedsUrlService.getAdvancedSearchUrl(criteria);
-		return findAndParseawpedsDocument(searchUrl, document -> pawpedsSearchResultParser.parseSearch(document));
+		return getAndParsePawpedsDocument(searchUrl, pawpedsSearchResultParser::parseSearch);
 	}
 
 	/**
@@ -56,10 +56,10 @@ class PawpedsRepositoryImpl implements PawpedsRepository {
 	@Override
 	public Collection<PedigreeSearchResult> findAllOffspring(long id) {
 		String offspringSearchUrl = pawpedsUrlService.getOffspringsSearchUrl(id);
-		return findAndParseawpedsDocument(offspringSearchUrl, document -> pawpedsSearchResultParser.parseOffsprings(document));
+		return getAndParsePawpedsDocument(offspringSearchUrl, pawpedsSearchResultParser::parseOffsprings);
 	}
 
-	Collection<PedigreeSearchResult> findAndParseawpedsDocument(String url,
+	Collection<PedigreeSearchResult> getAndParsePawpedsDocument(String url,
 			Function<Document, Collection<PedigreeSearchResult>> parserFunction) {
 		try {
 			Optional<Document> searchDocument = documentRepository.get(url);
