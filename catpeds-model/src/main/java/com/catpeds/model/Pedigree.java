@@ -275,7 +275,19 @@ public class Pedigree {
 	 *
 	 */
 	public enum Gender {
-		M,
-		F;
+		M {
+			@Override
+			public String asParent() {
+				return "Sire";
+			}
+		},
+		F {
+			@Override
+			public String asParent() {
+				return "Dam";
+			}
+		};
+
+		public abstract String asParent();
 	}
 }
