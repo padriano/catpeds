@@ -66,12 +66,12 @@ public class Pedigree {
 	/**
 	 * Sire unique identifier
 	 */
-	private long sireId;
+	private Long sireId;
 
 	/**
 	 * Dam unique identifier
 	 */
-	private long damId;
+	private Long damId;
 
 	/**
 	 * Set of offsprings
@@ -208,28 +208,28 @@ public class Pedigree {
 	/**
 	 * @see #sireId
 	 */
-	public long getSireId() {
+	public Long getSireId() {
 		return sireId;
 	}
 
 	/**
 	 * @see #sireId
 	 */
-	public void setSireId(long sireId) {
+	public void setSireId(Long sireId) {
 		this.sireId = sireId;
 	}
 
 	/**
 	 * @see #damId
 	 */
-	public long getDamId() {
+	public Long getDamId() {
 		return damId;
 	}
 
 	/**
 	 * @see #damId
 	 */
-	public void setDamId(long damId) {
+	public void setDamId(Long damId) {
 		this.damId = damId;
 	}
 
