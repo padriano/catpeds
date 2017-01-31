@@ -24,8 +24,8 @@ public class PedigreeTest {
 		// Given
 		Pedigree pedigree = new Pedigree();
 		pedigree.setId(123);
-		pedigree.setDamId(11);
-		pedigree.setSireId(22);
+		pedigree.setDamId(11l);
+		pedigree.setSireId(22l);
 		pedigree.setDob(LocalDate.of(2017, 1, 31));
 		pedigree.setEms("NFO w");
 		pedigree.setGender(Gender.M);
