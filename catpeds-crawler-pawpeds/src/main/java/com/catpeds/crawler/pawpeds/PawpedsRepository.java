@@ -21,8 +21,8 @@ public interface PawpedsRepository {
 	/**
 	 * Returns a collection of pedigree with the available fields.
 	 * <p>
-	 * Be aware that only filtering for date of birth, nationality and location for
-	 * NFO's is supported at the moment.
+	 * Be aware that only filtering for name, date of birth, nationality and
+	 * location for NFO's is supported at the moment.
 	 * </p>
 	 *
 	 * @param criteria

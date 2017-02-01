@@ -1,7 +1,8 @@
 package com.catpeds.crawler.pawpeds;
 
+import static com.google.common.base.Strings.nullToEmpty;
+
 import com.catpeds.model.PedigreeSearchCriteria;
-import com.google.common.base.Strings;
 
 /**
  * Service to provide PawPeds's URLs
@@ -12,7 +13,7 @@ import com.google.common.base.Strings;
 class PawpedsUrlService {
 
 	// improvement can be done to get the paths from configuration instead
-	private static final String URL_ADVANCED_SEARCH = "https://www.pawpeds.com/db/?a=as&p=nfo&date=iso&name=&ems=&sex=B&"
+	private static final String URL_ADVANCED_SEARCH = "https://www.pawpeds.com/db/?a=as&p=nfo&date=iso&name=%s&ems=&sex=B&"
 			+ "born_after=%s&born_before=%s&born_in=%s&lives_in=%s"
 			+ "&picture=B&health_info=B&g=2";
 
@@ -37,9 +38,8 @@ class PawpedsUrlService {
 		String bornAfter = criteria.getBornAfter() == null ? "" : criteria.getBornAfter().toString();
 		String bornBefore = criteria.getBornBefore() == null ? "" : criteria.getBornBefore().toString();
 
-		return String.format(URL_ADVANCED_SEARCH, bornAfter, bornBefore,
-				Strings.nullToEmpty(criteria.getNationalityCountryCode()),
-				Strings.nullToEmpty(criteria.getLocationCountryCode()));
+		return String.format(URL_ADVANCED_SEARCH, nullToEmpty(criteria.getName()), bornAfter, bornBefore,
+				nullToEmpty(criteria.getNationalityCountryCode()), nullToEmpty(criteria.getLocationCountryCode()));
 	}
 
 	/**
