@@ -40,6 +40,6 @@ public class PedigreeComparator implements Comparator<Pedigree> {
 		}
 		Set<Long> offsprings = o1.getOffsprings();
 		offsprings.removeAll(o2.getOffsprings());
-		return offsprings.size() == 0 ? 0 : -1; // simplifying - not comparing id's in the sets
+		return offsprings.isEmpty() ? 0 : -1; // simplifying - not comparing id's in the sets
 	}
 }

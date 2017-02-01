@@ -204,7 +204,7 @@ class PawpedsDocumentParser {
 
 	String getEms(Document pedigreeDocument) {
 		String pedigreeDocumentHeader = getPedigreeDocumentHeaderText(pedigreeDocument);
-		return asList(pedigreeDocumentHeader.split(",")).stream().filter(s -> s.contains("NFO")).findFirst().get().trim();
+		return asList(pedigreeDocumentHeader.split(",")).stream().filter(s -> s.contains("NFO")).findFirst().orElse("").trim();
 	}
 
 	String getName(Document pedigreeDocument) {
