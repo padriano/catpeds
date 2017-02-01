@@ -24,7 +24,7 @@ class PawpedsUrlService {
 	 * Get the URL that represents a query on PawPeds for advanced search for
 	 * the matching {@link PedigreeSearchCriteria}.
 	 * <p>
-	 * Be aware that only search for date of birth, nationality and location for
+	 * Be aware that only filtering for date of birth, nationality and location for
 	 * NFO's is supported at the moment.
 	 * </p>
 	 *
