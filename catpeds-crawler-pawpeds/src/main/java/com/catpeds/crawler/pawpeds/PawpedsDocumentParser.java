@@ -160,8 +160,8 @@ class PawpedsDocumentParser {
 		pedigree.setInbreeding(getInbreeding(pedigreeDocument));
 
 		// set parent id's
-		getParentId(pedigreeDocument, Gender.M).ifPresent(p -> pedigree.setSireId(p));
-		getParentId(pedigreeDocument, Gender.F).ifPresent(p -> pedigree.setDamId(p));
+		getParentId(pedigreeDocument, Gender.M).ifPresent(pedigree::setSireId);
+		getParentId(pedigreeDocument, Gender.F).ifPresent(pedigree::setDamId);
 
 		LOGGER.debug("Pedigree found {}", pedigree);
 		return Optional.of(pedigree);

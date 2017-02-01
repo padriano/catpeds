@@ -101,7 +101,7 @@ class PawpedsRepositoryImpl implements PawpedsRepository {
 
 		// populate with the offspring list
 		if (pedigree.isPresent()) {
-			findAllOffspring(id).stream().mapToLong(r -> r.getId()).forEach(pedigree.get()::addOffspring);
+			findAllOffspring(id).stream().mapToLong(PedigreeSearchResult::getId).forEach(pedigree.get()::addOffspring);
 		}
 
 		return pedigree;
