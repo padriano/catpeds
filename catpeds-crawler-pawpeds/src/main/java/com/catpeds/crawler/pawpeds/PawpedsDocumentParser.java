@@ -4,7 +4,6 @@ import static com.google.common.base.Strings.isNullOrEmpty;
 import static java.util.Arrays.asList;
 
 import java.time.LocalDate;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.regex.Matcher;
@@ -75,7 +74,7 @@ class PawpedsDocumentParser {
 			String errorMessage = document.select("th.error").text();
 			if (!isNullOrEmpty(errorMessage)) {
 				if (Objects.equal(errorMessage, "Sorry, nothing found")) {
-					return Arrays.asList();
+					return asList();
 				}
 				throw new IllegalArgumentException(errorMessage);
 			}
@@ -100,7 +99,7 @@ class PawpedsDocumentParser {
 			LOGGER.error("Error while parsing search result for document: \n{}", document);
 		}
 
-		return Arrays.asList();
+		return asList();
 	}
 
 	private PedigreeSearchResult parseSearchResultRow(Elements rowCells) {

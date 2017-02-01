@@ -25,7 +25,6 @@ import com.catpeds.crawler.jsoup.DocumentRepository;
 import com.catpeds.model.Pedigree;
 import com.catpeds.model.PedigreeSearchCriteria;
 import com.catpeds.model.PedigreeSearchResult;
-import com.google.common.collect.Iterables;
 
 /**
  * Unit test class for {@link PawpedsRepositoryImpl}
@@ -79,7 +78,7 @@ public class PawpedsRepositoryImplTest {
 
 		// Then
 		assertEquals("Expecting one search result", 1, result.size());
-		assertEquals("Expecting one search result", pedigreeSearchResult, Iterables.getOnlyElement(result));
+		assertEquals("Expecting one search result", pedigreeSearchResult, getOnlyElement(result));
 		// check that there was only one invocation to the document repository/ no retry
 		verify(documentRepository).get(searchUrl);
 		verify(pawpedsSearchResultParser).parseSearch(document);
@@ -109,7 +108,7 @@ public class PawpedsRepositoryImplTest {
 
 		// Then
 		assertEquals("Expecting one search result", 1, result.size());
-		assertEquals("Expecting one search result", pedigreeSearchResult, Iterables.getOnlyElement(result));
+		assertEquals("Expecting one search result", pedigreeSearchResult, getOnlyElement(result));
 		// check that there was 2 invocations to the document repository/with retry
 		verify(documentRepository, times(2)).get(searchUrl);
 		verify(pawpedsSearchResultParser).parseSearch(document);
@@ -190,7 +189,7 @@ public class PawpedsRepositoryImplTest {
 
 		// Then
 		assertEquals("Expecting one search result", 1, result.size());
-		assertEquals("Expecting one search result", offspringSearchResult, Iterables.getOnlyElement(result));
+		assertEquals("Expecting one search result", offspringSearchResult, getOnlyElement(result));
 		// check that there was only one invocation to the document repository
 		verify(documentRepository).get(searchUrl);
 		verify(pawpedsSearchResultParser).parseOffsprings(document);
