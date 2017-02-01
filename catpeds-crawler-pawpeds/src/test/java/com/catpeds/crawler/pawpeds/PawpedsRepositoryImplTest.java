@@ -253,7 +253,8 @@ public class PawpedsRepositoryImplTest {
 	public void testFindOneWithOffspring() throws IOException {
 		// Given
 		String searchUrl = "http://foo.bar";
-		long id = 1212, offspringId = 432;
+		long id = 1212;
+		long offspringId = 432;
 		when(pawpedsUrlService.getOffspringsSearchUrl(id)).thenReturn(searchUrl);
 		when(pawpedsUrlService.getPedigreeUrl(id)).thenReturn(searchUrl);
 
