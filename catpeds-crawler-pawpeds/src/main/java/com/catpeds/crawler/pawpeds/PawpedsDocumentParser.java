@@ -19,8 +19,7 @@ import org.slf4j.LoggerFactory;
 
 import com.catpeds.model.Pedigree;
 import com.catpeds.model.Pedigree.Gender;
-import com.catpeds.model.PedigreeSearchResult;
-import com.catpeds.model.builder.PedigreeSearchResultBuilder;
+import com.catpeds.model.builder.PedigreeBuilder;
 import com.google.common.base.Objects;
 
 /**
@@ -44,30 +43,30 @@ class PawpedsDocumentParser {
 	private static final Pattern NAME_PATTERN = Pattern.compile("(.*?),(.*)");
 
 	/**
-	 * Converts a search {@link Document} into {@link PedigreeSearchResult}'s.
+	 * Converts a search {@link Document} into {@link Pedigree}'s.
 	 *
 	 * @param searchDocument
 	 *            HTML document with the search results content
-	 * @return a {@link List} of {@link PedigreeSearchResult} representing the
+	 * @return a {@link List} of {@link Pedigree} representing the
 	 *         parsed pedigree results
 	 */
-	public List<PedigreeSearchResult> parseSearch(Document searchDocument) {
+	public List<Pedigree> parseSearch(Document searchDocument) {
 		return parseSearchTableRows(searchDocument, "table.searchresult tr.searchresult:has(td.searchresult)");
 	}
 
 	/**
-	 * Converts an offsprings {@link Document} into {@link PedigreeSearchResult}'s.
+	 * Converts an offsprings {@link Document} into {@link Pedigree}'s.
 	 *
 	 * @param offspringsDocument
 	 *            HTML document with the offspring results content
-	 * @return a {@link List} of {@link PedigreeSearchResult} representing the
+	 * @return a {@link List} of {@link Pedigree} representing the
 	 *         parsed pedigree results
 	 */
-	public List<PedigreeSearchResult> parseOffsprings(Document offspringsDocument) {
+	public List<Pedigree> parseOffsprings(Document offspringsDocument) {
 		return parseSearchTableRows(offspringsDocument, "table.offspring tr:has(td.offspring)");
 	}
 
-	private List<PedigreeSearchResult> parseSearchTableRows(Document document, String rowsJQuery) {
+	private List<Pedigree> parseSearchTableRows(Document document, String rowsJQuery) {
 
 		try {
 			// check if an error occurred
@@ -102,7 +101,7 @@ class PawpedsDocumentParser {
 		return asList();
 	}
 
-	private PedigreeSearchResult parseSearchResultRow(Elements rowCells) {
+	private Pedigree parseSearchResultRow(Elements rowCells) {
 		Element anchor = rowCells.get(1).select("a").first();
 		long id = getIdFromAnchor(anchor);
 
@@ -117,7 +116,7 @@ class PawpedsDocumentParser {
 		String ems = rowCells.get(3).text().replace(nbsp, " ").trim();
 		LocalDate dob = LocalDate.parse(rowCells.get(4).text().replace(nbsp, " ").trim());
 
-		return new PedigreeSearchResultBuilder().withId(id).withName(name).withGender(gender).withTitle(title)
+		return new PedigreeBuilder().withId(id).withName(name).withGender(gender).withTitle(title)
 				.withEms(ems).withDob(dob).build();
 	}
 
@@ -131,11 +130,11 @@ class PawpedsDocumentParser {
 	}
 
 	/**
-	 * Converts an offsprings {@link Document} into {@link PedigreeSearchResult}'s.
+	 * Converts an offsprings {@link Document} into {@link Pedigree}'s.
 	 *
 	 * @param offspringsDocument
 	 *            HTML document with the offspring results content
-	 * @return a {@link List} of {@link PedigreeSearchResult} representing the
+	 * @return a {@link List} of {@link Pedigree} representing the
 	 *         parsed pedigree results
 	 */
 	public Optional<Pedigree> parsePedigree(Document pedigreeDocument) {

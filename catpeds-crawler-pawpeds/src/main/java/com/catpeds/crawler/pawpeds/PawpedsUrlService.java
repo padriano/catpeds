@@ -2,7 +2,7 @@ package com.catpeds.crawler.pawpeds;
 
 import static com.google.common.base.Strings.nullToEmpty;
 
-import com.catpeds.model.PedigreeSearchCriteria;
+import com.catpeds.model.PedigreeCriteria;
 
 /**
  * Service to provide PawPeds's URLs
@@ -23,7 +23,7 @@ class PawpedsUrlService {
 
 	/**
 	 * Get the URL that represents a query on PawPeds for advanced search for
-	 * the matching {@link PedigreeSearchCriteria}.
+	 * the matching {@link PedigreeCriteria}.
 	 * <p>
 	 * Be aware that only filtering for date of birth, nationality and location for
 	 * NFO's is supported at the moment.
@@ -33,7 +33,7 @@ class PawpedsUrlService {
 	 *            the matcher for the search
 	 * @return URL string representation of the query
 	 */
-	public String getAdvancedSearchUrl(PedigreeSearchCriteria criteria) {
+	public String getAdvancedSearchUrl(PedigreeCriteria criteria) {
 
 		String bornAfter = criteria.getBornAfter() == null ? "" : criteria.getBornAfter().toString();
 		String bornBefore = criteria.getBornBefore() == null ? "" : criteria.getBornBefore().toString();

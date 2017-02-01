@@ -7,8 +7,7 @@ import java.util.Collection;
 import java.util.Optional;
 
 import com.catpeds.model.Pedigree;
-import com.catpeds.model.PedigreeSearchCriteria;
-import com.catpeds.model.PedigreeSearchResult;
+import com.catpeds.model.PedigreeCriteria;
 
 /**
  * Repository to retrieve pedigree information from PawPeds.
@@ -16,7 +15,7 @@ import com.catpeds.model.PedigreeSearchResult;
  * @author padriano
  *
  */
-public interface PawpedsRepository {
+public interface PawpedsPedigreeRepository {
 
 	/**
 	 * Returns a collection of pedigree with the available fields.
@@ -27,19 +26,21 @@ public interface PawpedsRepository {
 	 *
 	 * @param criteria
 	 *            - cannot be null
-	 * @return a {@link Collection} of {@link PedigreeSearchResult} matching the
-	 *         given criteria.
+	 * @return a {@link Collection} of {@link Pedigree} matching the given
+	 *         criteria with the title, name, gender, EMS and date of birth
+	 *         populated fields.
 	 */
-	Collection<PedigreeSearchResult> findAll(PedigreeSearchCriteria criteria);
+	Collection<Pedigree> findAll(PedigreeCriteria criteria);
 
 	/**
 	 * Returns a collection of pedigree for the specified cat's offsprings.
 	 *
 	 * @param id
 	 *            - Parent's pedigree unique identifier
-	 * @return a {@link Collection} of {@link PedigreeSearchResult}.
+	 * @return a {@link Collection} of {@link Pedigree} with the title, name,
+	 *         gender, EMS and date of birth populated fields.
 	 */
-	Collection<PedigreeSearchResult> findAllOffspring(long id);
+	Collection<Pedigree> findAllOffspring(long id);
 
 	/**
 	 * Retrieves a PawPeds pedigree by its id.
@@ -48,8 +49,8 @@ public interface PawpedsRepository {
 	 * name are displayed concatenated, so the title will also be in the same
 	 * format in the returned information with a <code>null</code> title. On the
 	 * {@link PedigreeSearchResult} the title and name are separate so
-	 * {@link #findAll(PedigreeSearchCriteria)} can be used to extract this more
-	 * accurately.
+	 * {@link #findAll(PedigreeCriteria)} can be used to extract this title/name
+	 * split more accurately.
 	 * </p>
 	 *
 	 * @param id

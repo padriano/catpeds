@@ -12,7 +12,7 @@ import java.time.LocalDate;
  * @author padriano
  *
  */
-public class PedigreeSearchCriteria {
+public class PedigreeCriteria {
 
 	/**
 	 * Name

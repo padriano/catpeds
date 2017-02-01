@@ -20,11 +20,8 @@ import org.junit.Test;
 
 import com.catpeds.model.Pedigree;
 import com.catpeds.model.Pedigree.Gender;
-import com.catpeds.model.PedigreeSearchResult;
 import com.catpeds.model.builder.PedigreeBuilder;
-import com.catpeds.model.builder.PedigreeSearchResultBuilder;
 import com.catpeds.model.comparator.PedigreeComparator;
-import com.catpeds.model.comparator.PedigreeSearchResultComparator;
 
 /**
  * Unit test class for {@link PawpedsDocumentParser}
@@ -54,19 +51,19 @@ public class PawpedsDocumentParserTest {
 		// loading file with 4 results
 		Document document = loadJSoupDocument("/pawpeds/4matches.html");
 
-		PedigreeSearchResult firstExpectedResult = new PedigreeSearchResultBuilder().withId(1262490l).withTitle("")
+		Pedigree firstExpectedResult = new PedigreeBuilder().withId(1262490l).withTitle("")
 				.withName("Padawan Adi Gallia").withGender(Gender.F).withEms("NFO a 09 24")
 				.withDob(LocalDate.of(2015, 4, 15)).build();
-		PedigreeSearchResult secondExpectedResult = new PedigreeSearchResultBuilder().withId(1262488l).withTitle("CH")
+		Pedigree secondExpectedResult = new PedigreeBuilder().withId(1262488l).withTitle("CH")
 				.withName("Padawan Alderaan").withGender(Gender.M).withEms("NFO a 03 24")
 				.withDob(LocalDate.of(2015, 4, 15)).build();
 
 		// When
-		List<PedigreeSearchResult> result = pawpedsDocumentParser.parseSearch(document);
+		List<Pedigree> result = pawpedsDocumentParser.parseSearch(document);
 
 		// Then
 		assertEquals("Expecting 4 results", 4, result.size());
-		PedigreeSearchResultComparator comparator = new PedigreeSearchResultComparator();
+		PedigreeComparator comparator = new PedigreeComparator();
 		assertEquals("Unexpected first result", 0, comparator.compare(result.get(0), firstExpectedResult));
 		assertEquals("Unexpected second result", 0, comparator.compare(result.get(1), secondExpectedResult));
 	}
@@ -82,7 +79,7 @@ public class PawpedsDocumentParserTest {
 		Document document = loadJSoupDocument("/pawpeds/noresults.html");
 
 		// When
-		List<PedigreeSearchResult> result = pawpedsDocumentParser.parseSearch(document);
+		List<Pedigree> result = pawpedsDocumentParser.parseSearch(document);
 
 		// Then
 		assertTrue("Not expecting results", result.isEmpty());
@@ -143,7 +140,7 @@ public class PawpedsDocumentParserTest {
 		when(document.select("th.error")).thenReturn(noErrorElement);
 
 		// When
-		List<PedigreeSearchResult> result = pawpedsDocumentParser.parseSearch(document);
+		List<Pedigree> result = pawpedsDocumentParser.parseSearch(document);
 
 		// Then
 		assertTrue("Not expecting results", result.isEmpty());
@@ -159,19 +156,19 @@ public class PawpedsDocumentParserTest {
 		// loading file with 4 results
 		Document document = loadJSoupDocument("/pawpeds/offsprings.html");
 
-		PedigreeSearchResult firstExpectedResult = new PedigreeSearchResultBuilder().withId(1262490l).withTitle("")
+		Pedigree firstExpectedResult = new PedigreeBuilder().withId(1262490l).withTitle("")
 				.withName("Padawan Adi Gallia").withGender(Gender.F).withEms("NFO a 09 24")
 				.withDob(LocalDate.of(2015, 4, 15)).build();
-		PedigreeSearchResult secondExpectedResult = new PedigreeSearchResultBuilder().withId(1262488l).withTitle("CH")
+		Pedigree secondExpectedResult = new PedigreeBuilder().withId(1262488l).withTitle("CH")
 				.withName("Padawan Alderaan").withGender(Gender.M).withEms("NFO a 03 24")
 				.withDob(LocalDate.of(2015, 4, 15)).build();
 
 		// When
-		List<PedigreeSearchResult> result = pawpedsDocumentParser.parseOffsprings(document);
+		List<Pedigree> result = pawpedsDocumentParser.parseOffsprings(document);
 
 		// Then
 		assertEquals("Expecting 4 results", 4, result.size());
-		PedigreeSearchResultComparator comparator = new PedigreeSearchResultComparator();
+		PedigreeComparator comparator = new PedigreeComparator();
 		assertEquals("Unexpected first result", 0, comparator.compare(result.get(0), firstExpectedResult));
 		assertEquals("Unexpected second result", 0, comparator.compare(result.get(1), secondExpectedResult));
 	}

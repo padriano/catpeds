@@ -8,7 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import com.catpeds.model.PedigreeSearchCriteria;
+import com.catpeds.model.PedigreeCriteria;
 
 import junitparams.JUnitParamsRunner;
 import junitparams.Parameters;
@@ -34,13 +34,13 @@ public class PawpedsUrlServiceTest {
 
 	/**
 	 * Test that
-	 * {@link PawpedsUrlService#getAdvancedSearchUrl(PedigreeSearchCriteria)}
+	 * {@link PawpedsUrlService#getAdvancedSearchUrl(PedigreeCriteria)}
 	 * creates the correct URL filtering the DoB, nationality and location.
 	 */
 	@Test
 	public void testGetAdvancedSearchUrlAllProperties() {
 		// Given
-		PedigreeSearchCriteria criteria = new PedigreeSearchCriteria();
+		PedigreeCriteria criteria = new PedigreeCriteria();
 		criteria.setBornAfter(LocalDate.of(1980, 1, 1));
 		criteria.setBornBefore(LocalDate.of(1981, 12, 31));
 		criteria.setNationalityCountryCode("SE");
@@ -68,7 +68,7 @@ public class PawpedsUrlServiceTest {
 
 	/**
 	 * Test that
-	 * {@link PawpedsUrlService#getAdvancedSearchUrl(PedigreeSearchCriteria)}
+	 * {@link PawpedsUrlService#getAdvancedSearchUrl(PedigreeCriteria)}
 	 * creates the correct URL filtering the DoB, nationality and location.
 	 * @param nationalityCountryCode
 	 * @param locationCountryCode
@@ -77,7 +77,7 @@ public class PawpedsUrlServiceTest {
 	@Parameters(method = "countryCodesParams")
 	public void testGetAdvancedSearchUrlForCountryCodes(String nationalityCountryCode, String locationCountryCode) {
 		// Given
-		PedigreeSearchCriteria criteria = new PedigreeSearchCriteria();
+		PedigreeCriteria criteria = new PedigreeCriteria();
 		criteria.setNationalityCountryCode(nationalityCountryCode);
 		criteria.setLocationCountryCode(locationCountryCode);
 

@@ -17,25 +17,24 @@ import org.slf4j.LoggerFactory;
 
 import com.catpeds.crawler.jsoup.DocumentRepository;
 import com.catpeds.model.Pedigree;
-import com.catpeds.model.PedigreeSearchCriteria;
-import com.catpeds.model.PedigreeSearchResult;
+import com.catpeds.model.PedigreeCriteria;
 
 /**
- * {@link PawpedsRepository} default implementation.
+ * {@link PawpedsPedigreeRepository} default implementation.
  *
  * @author padriano
  *
  */
-class PawpedsRepositoryImpl implements PawpedsRepository {
+class PawpedsPedigreeRepositoryImpl implements PawpedsPedigreeRepository {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(PawpedsRepositoryImpl.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(PawpedsPedigreeRepositoryImpl.class);
 
 	private DocumentRepository documentRepository;
 	private PawpedsUrlService pawpedsUrlService;
 	private PawpedsDocumentParser pawpedsSearchResultParser;
 
 	@Inject
-	PawpedsRepositoryImpl(DocumentRepository documentRepository, PawpedsUrlService pawpedsUrlService,
+	PawpedsPedigreeRepositoryImpl(DocumentRepository documentRepository, PawpedsUrlService pawpedsUrlService,
 			PawpedsDocumentParser pawpedsSearchResultParser) {
 		this.documentRepository = documentRepository;
 		this.pawpedsUrlService = pawpedsUrlService;
@@ -71,26 +70,26 @@ class PawpedsRepositoryImpl implements PawpedsRepository {
 	}
 
 	/**
-	 * @see com.catpeds.crawler.pawpeds.PawpedsRepository#findAll(com.catpeds.model.PedigreeSearchCriteria)
+	 * @see com.catpeds.crawler.pawpeds.PawpedsPedigreeRepository#findAll(com.catpeds.model.PedigreeCriteria)
 	 */
 	@Override
-	public Collection<PedigreeSearchResult> findAll(PedigreeSearchCriteria criteria) {
+	public Collection<Pedigree> findAll(PedigreeCriteria criteria) {
 		String searchUrl = pawpedsUrlService.getAdvancedSearchUrl(criteria);
 		return getAndParsePawpedsDocument(searchUrl, pawpedsSearchResultParser::parseSearch, Arrays.asList());
 	}
 
 	/**
-	 * @see com.catpeds.crawler.pawpeds.PawpedsRepository#findAllOffspring(long)
+	 * @see com.catpeds.crawler.pawpeds.PawpedsPedigreeRepository#findAllOffspring(long)
 	 */
 	@Override
-	public Collection<PedigreeSearchResult> findAllOffspring(long id) {
+	public Collection<Pedigree> findAllOffspring(long id) {
 		String offspringSearchUrl = pawpedsUrlService.getOffspringsSearchUrl(id);
 		return getAndParsePawpedsDocument(offspringSearchUrl, pawpedsSearchResultParser::parseOffsprings,
 				Arrays.asList());
 	}
 
 	/**
-	 * @see com.catpeds.crawler.pawpeds.PawpedsRepository#findOne(long)
+	 * @see com.catpeds.crawler.pawpeds.PawpedsPedigreeRepository#findOne(long)
 	 */
 	@Override
 	public Optional<Pedigree> findOne(long id) {
@@ -101,7 +100,7 @@ class PawpedsRepositoryImpl implements PawpedsRepository {
 
 		// populate with the offspring list
 		if (pedigree.isPresent()) {
-			findAllOffspring(id).stream().mapToLong(PedigreeSearchResult::getId).forEach(pedigree.get()::addOffspring);
+			findAllOffspring(id).stream().mapToLong(Pedigree::getId).forEach(pedigree.get()::addOffspring);
 		}
 
 		return pedigree;

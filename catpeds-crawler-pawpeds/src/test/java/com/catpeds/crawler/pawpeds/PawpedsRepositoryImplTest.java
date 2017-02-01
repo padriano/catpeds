@@ -23,11 +23,10 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 import com.catpeds.crawler.jsoup.DocumentRepository;
 import com.catpeds.model.Pedigree;
-import com.catpeds.model.PedigreeSearchCriteria;
-import com.catpeds.model.PedigreeSearchResult;
+import com.catpeds.model.PedigreeCriteria;
 
 /**
- * Unit test class for {@link PawpedsRepositoryImpl}
+ * Unit test class for {@link PawpedsPedigreeRepositoryImpl}
  *
  * @author padriano
  *
@@ -42,20 +41,20 @@ public class PawpedsRepositoryImplTest {
 	@Mock
 	private PawpedsDocumentParser pawpedsSearchResultParser;
 	@Mock
-	private PedigreeSearchCriteria criteria;
+	private PedigreeCriteria criteria;
 
-	private PawpedsRepositoryImpl pawpedsRepository;
+	private PawpedsPedigreeRepositoryImpl pawpedsRepository;
 
 	/**
 	 * Initialisation
 	 */
 	@Before
 	public void setup() {
-		pawpedsRepository = new PawpedsRepositoryImpl(documentRepository, pawpedsUrlService, pawpedsSearchResultParser);
+		pawpedsRepository = new PawpedsPedigreeRepositoryImpl(documentRepository, pawpedsUrlService, pawpedsSearchResultParser);
 	}
 
 	/**
-	 * Test that {@link PawpedsRepositoryImpl#findAll(PedigreeSearchCriteria)}
+	 * Test that {@link PawpedsPedigreeRepositoryImpl#findAll(PedigreeCriteria)}
 	 * delegates the URL calculation, HTML document retrieval and the document
 	 * parsing to its dependencies. Also the document retrieval is only done one
 	 * time (no time out so no retries).
@@ -70,11 +69,11 @@ public class PawpedsRepositoryImplTest {
 		Document document = mock(Document.class);
 		when(documentRepository.get(searchUrl)).thenReturn(Optional.of(document));
 		// return a search result
-		PedigreeSearchResult pedigreeSearchResult = mock(PedigreeSearchResult.class);
+		Pedigree pedigreeSearchResult = mock(Pedigree.class);
 		when(pawpedsSearchResultParser.parseSearch(document)).thenReturn(Arrays.asList(pedigreeSearchResult));
 
 		// When
-		Collection<PedigreeSearchResult> result = pawpedsRepository.findAll(criteria);
+		Collection<Pedigree> result = pawpedsRepository.findAll(criteria);
 
 		// Then
 		assertEquals("Expecting one search result", 1, result.size());
@@ -85,7 +84,7 @@ public class PawpedsRepositoryImplTest {
 	}
 
 	/**
-	 * Test that {@link PawpedsRepositoryImpl#findAll(PedigreeSearchCriteria)}
+	 * Test that {@link PawpedsPedigreeRepositoryImpl#findAll(PedigreeCriteria)}
 	 * delegates the URL calculation, HTML document retrieval and the document
 	 * parsing to its dependencies. Also the document retrieval is done twice
 	 * due to a timeout on the document retrieval.
@@ -100,11 +99,11 @@ public class PawpedsRepositoryImplTest {
 		Document document = mock(Document.class);
 		when(documentRepository.get(searchUrl)).thenReturn(Optional.empty()).thenReturn(Optional.of(document));
 		// return a search result
-		PedigreeSearchResult pedigreeSearchResult = mock(PedigreeSearchResult.class);
+		Pedigree pedigreeSearchResult = mock(Pedigree.class);
 		when(pawpedsSearchResultParser.parseSearch(document)).thenReturn(Arrays.asList(pedigreeSearchResult));
 
 		// When
-		Collection<PedigreeSearchResult> result = pawpedsRepository.findAll(criteria);
+		Collection<Pedigree> result = pawpedsRepository.findAll(criteria);
 
 		// Then
 		assertEquals("Expecting one search result", 1, result.size());
@@ -115,7 +114,7 @@ public class PawpedsRepositoryImplTest {
 	}
 
 	/**
-	 * Test that {@link PawpedsRepositoryImpl#findAll(PedigreeSearchCriteria)}
+	 * Test that {@link PawpedsPedigreeRepositoryImpl#findAll(PedigreeCriteria)}
 	 * delegates the URL calculation, HTML document retrieval and the document
 	 * parsing to its dependencies. Also the document retrieval is done twice
 	 * due to a timeout on the document retrieval but with no success and no
@@ -131,7 +130,7 @@ public class PawpedsRepositoryImplTest {
 		when(documentRepository.get(searchUrl)).thenReturn(Optional.empty());
 
 		// When
-		Collection<PedigreeSearchResult> result = pawpedsRepository.findAll(criteria);
+		Collection<Pedigree> result = pawpedsRepository.findAll(criteria);
 
 		// Then
 		assertTrue("Not expecting search results", result.isEmpty());
@@ -142,7 +141,7 @@ public class PawpedsRepositoryImplTest {
 	}
 
 	/**
-	 * Test that {@link PawpedsRepositoryImpl#findAll(PedigreeSearchCriteria)}
+	 * Test that {@link PawpedsPedigreeRepositoryImpl#findAll(PedigreeCriteria)}
 	 * returns an empty collection when an IOException occurs.
 	 */
 	@Test
@@ -155,7 +154,7 @@ public class PawpedsRepositoryImplTest {
 		when(documentRepository.get(searchUrl)).thenThrow(IOException.class);
 
 		// When
-		Collection<PedigreeSearchResult> result = pawpedsRepository.findAll(criteria);
+		Collection<Pedigree> result = pawpedsRepository.findAll(criteria);
 
 		// Then
 		assertTrue("Not expecting search results", result.isEmpty());
@@ -166,7 +165,7 @@ public class PawpedsRepositoryImplTest {
 	}
 
 	/**
-	 * Test that {@link PawpedsRepositoryImpl#findAllOffspring(long)}
+	 * Test that {@link PawpedsPedigreeRepositoryImpl#findAllOffspring(long)}
 	 * delegates the URL calculation, HTML document retrieval and the document
 	 * parsing to its dependencies (offspring search).
 	 */
@@ -181,11 +180,11 @@ public class PawpedsRepositoryImplTest {
 		Document document = mock(Document.class);
 		when(documentRepository.get(searchUrl)).thenReturn(Optional.of(document));
 		// return a search result
-		PedigreeSearchResult offspringSearchResult = mock(PedigreeSearchResult.class);
+		Pedigree offspringSearchResult = mock(Pedigree.class);
 		when(pawpedsSearchResultParser.parseOffsprings(document)).thenReturn(Arrays.asList(offspringSearchResult));
 
 		// When
-		Collection<PedigreeSearchResult> result = pawpedsRepository.findAllOffspring(id);
+		Collection<Pedigree> result = pawpedsRepository.findAllOffspring(id);
 
 		// Then
 		assertEquals("Expecting one search result", 1, result.size());
@@ -196,7 +195,7 @@ public class PawpedsRepositoryImplTest {
 	}
 
 	/**
-	 * Test that {@link PawpedsRepositoryImpl#findAllOffspring(long)}
+	 * Test that {@link PawpedsPedigreeRepositoryImpl#findAllOffspring(long)}
 	 * returns empty result on document retrieval timeout.
 	 */
 	@Test
@@ -210,7 +209,7 @@ public class PawpedsRepositoryImplTest {
 		when(documentRepository.get(searchUrl)).thenReturn(Optional.empty());
 
 		// When
-		Collection<PedigreeSearchResult> result = pawpedsRepository.findAllOffspring(id);
+		Collection<Pedigree> result = pawpedsRepository.findAllOffspring(id);
 
 		// Then
 		assertTrue("Expecting no search result", result.isEmpty());
@@ -220,7 +219,7 @@ public class PawpedsRepositoryImplTest {
 	}
 
 	/**
-	 * Test that {@link PawpedsRepositoryImpl#findAllOffspring(long)}
+	 * Test that {@link PawpedsPedigreeRepositoryImpl#findAllOffspring(long)}
 	 * returns an empty collection when an IOException occurs.
 	 */
 	@Test
@@ -234,7 +233,7 @@ public class PawpedsRepositoryImplTest {
 		when(documentRepository.get(searchUrl)).thenThrow(IOException.class);
 
 		// When
-		Collection<PedigreeSearchResult> result = pawpedsRepository.findAllOffspring(id);
+		Collection<Pedigree> result = pawpedsRepository.findAllOffspring(id);
 
 		// Then
 		assertTrue("Expecting no search result", result.isEmpty());
@@ -244,7 +243,7 @@ public class PawpedsRepositoryImplTest {
 	}
 
 	/**
-	 * Test that {@link PawpedsRepositoryImpl#findAllOffspring(long)}
+	 * Test that {@link PawpedsPedigreeRepositoryImpl#findAllOffspring(long)}
 	 * delegates the URL calculation, HTML document retrieval and the document
 	 * parsing to its dependencies (offspring search).
 	 */
@@ -261,7 +260,7 @@ public class PawpedsRepositoryImplTest {
 		Document document = mock(Document.class);
 		when(documentRepository.get(searchUrl)).thenReturn(Optional.of(document));
 		// return a search result
-		PedigreeSearchResult offspringSearchResult = mock(PedigreeSearchResult.class);
+		Pedigree offspringSearchResult = mock(Pedigree.class);
 		when(offspringSearchResult.getId()).thenReturn(offspringId);
 		when(pawpedsSearchResultParser.parseOffsprings(document)).thenReturn(Arrays.asList(offspringSearchResult));
 		// expected pedigree
