@@ -1,5 +1,6 @@
 package com.catpeds.crawler.pawpeds;
 
+import static com.google.common.collect.Iterables.getOnlyElement;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
@@ -21,6 +22,7 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import com.catpeds.crawler.jsoup.DocumentRepository;
+import com.catpeds.model.Pedigree;
 import com.catpeds.model.PedigreeSearchCriteria;
 import com.catpeds.model.PedigreeSearchResult;
 import com.google.common.collect.Iterables;
@@ -240,5 +242,41 @@ public class PawpedsRepositoryImplTest {
 		// check that there was only one invocation to the document repository
 		verify(documentRepository).get(searchUrl);
 		verifyZeroInteractions(pawpedsSearchResultParser);
+	}
+
+	/**
+	 * Test that {@link PawpedsRepositoryImpl#findAllOffspring(long)}
+	 * delegates the URL calculation, HTML document retrieval and the document
+	 * parsing to its dependencies (offspring search).
+	 */
+	@Test
+	public void testFindOneWithOffspring() throws IOException {
+		// Given
+		String searchUrl = "http://foo.bar";
+		long id = 1212, offspringId = 432;
+		when(pawpedsUrlService.getOffspringsSearchUrl(id)).thenReturn(searchUrl);
+		when(pawpedsUrlService.getPedigreeUrl(id)).thenReturn(searchUrl);
+
+		// it will find a document in the first invocation
+		Document document = mock(Document.class);
+		when(documentRepository.get(searchUrl)).thenReturn(Optional.of(document));
+		// return a search result
+		PedigreeSearchResult offspringSearchResult = mock(PedigreeSearchResult.class);
+		when(offspringSearchResult.getId()).thenReturn(offspringId);
+		when(pawpedsSearchResultParser.parseOffsprings(document)).thenReturn(Arrays.asList(offspringSearchResult));
+		// expected pedigree
+		Pedigree expectedPedigree = new Pedigree();
+		expectedPedigree.setId(id);
+		when(pawpedsSearchResultParser.parsePedigree(document)).thenReturn(Optional.of(expectedPedigree));
+
+		// When
+		Optional<Pedigree> pedigree = pawpedsRepository.findOne(id);
+
+		// Then
+		assertTrue("Expecting one search result", pedigree.isPresent());
+		assertEquals("Unexpected pedigree", id, pedigree.get().getId());
+		assertEquals("Expecting one offspring", offspringId, getOnlyElement(pedigree.get().getOffsprings()).longValue());
+		verify(documentRepository, times(2)).get(searchUrl); // one for offsprings and one for pedigree
+		verify(pawpedsUrlService).getOffspringsSearchUrl(id);
 	}
 }

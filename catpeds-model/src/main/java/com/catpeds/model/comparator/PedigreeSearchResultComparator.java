@@ -4,6 +4,7 @@ import java.util.Comparator;
 
 import com.catpeds.model.PedigreeSearchResult;
 import com.google.common.collect.ComparisonChain;
+import com.google.common.collect.Ordering;
 
 /**
  * {@link PedigreeSearchResult} {@link Comparator} that uses all its POJO
@@ -21,11 +22,11 @@ public class PedigreeSearchResultComparator implements Comparator<PedigreeSearch
 	public int compare(PedigreeSearchResult o1, PedigreeSearchResult o2) {
 		return ComparisonChain.start()
 		.compare(o1.getId(), o2.getId())
-		.compare(o1.getTitle(), o2.getTitle())
-		.compare(o1.getName(), o2.getName())
-		.compare(o1.getGender(), o2.getGender())
-		.compare(o1.getEms(), o2.getEms())
-		.compare(o1.getDob(), o2.getDob())
+		.compare(o1.getTitle(), o2.getTitle(), Ordering.natural().nullsFirst())
+		.compare(o1.getName(), o2.getName(), Ordering.natural().nullsFirst())
+		.compare(o1.getGender(), o2.getGender(), Ordering.natural().nullsFirst())
+		.compare(o1.getEms(), o2.getEms(), Ordering.natural().nullsFirst())
+		.compare(o1.getDob(), o2.getDob(), Ordering.natural().nullsFirst())
 		.result();
 	}
 }
