@@ -17,7 +17,7 @@ import com.catpeds.model.Pedigree.Gender;
 public class PedigreeTest {
 
 	/**
-	 * Initialise
+	 * Test {@link Pedigree} string representation
 	 */
 	@Test
 	public void testToString() {
