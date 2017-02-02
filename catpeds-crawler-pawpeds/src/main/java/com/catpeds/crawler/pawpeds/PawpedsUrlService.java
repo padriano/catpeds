@@ -2,6 +2,9 @@ package com.catpeds.crawler.pawpeds;
 
 import static com.google.common.base.Strings.nullToEmpty;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.catpeds.model.PedigreeCriteria;
 
 /**
@@ -11,6 +14,8 @@ import com.catpeds.model.PedigreeCriteria;
  *
  */
 class PawpedsUrlService {
+
+	private static final Logger LOGGER = LoggerFactory.getLogger(PawpedsUrlService.class);
 
 	// improvement can be done to get the paths from configuration instead
 	private static final String URL_ADVANCED_SEARCH = "https://www.pawpeds.com/db/?a=as&p=nfo&date=iso&name=%s&ems=&sex=B&"
@@ -34,12 +39,13 @@ class PawpedsUrlService {
 	 * @return URL string representation of the query
 	 */
 	public String getAdvancedSearchUrl(PedigreeCriteria criteria) {
+		LOGGER.info("getAdvancedSearchUrl with criteria {}", criteria);
 
 		String bornAfter = criteria.getBornAfter() == null ? "" : criteria.getBornAfter().toString();
 		String bornBefore = criteria.getBornBefore() == null ? "" : criteria.getBornBefore().toString();
 
-		return String.format(URL_ADVANCED_SEARCH, nullToEmpty(criteria.getName()), bornAfter, bornBefore,
-				nullToEmpty(criteria.getNationalityCountryCode()), nullToEmpty(criteria.getLocationCountryCode()));
+		return encodeUrl(String.format(URL_ADVANCED_SEARCH, nullToEmpty(criteria.getName()), bornAfter, bornBefore,
+				nullToEmpty(criteria.getNationalityCountryCode()), nullToEmpty(criteria.getLocationCountryCode())));
 	}
 
 	/**
@@ -51,7 +57,8 @@ class PawpedsUrlService {
 	 * @return URL string representation of the query
 	 */
 	public String getOffspringsSearchUrl(long id) {
-		return String.format(URL_OFFSPRING_SEARCH, id);
+		LOGGER.info("getOffspringsSearchUrl with id {}", id);
+		return encodeUrl(String.format(URL_OFFSPRING_SEARCH, id));
 	}
 
 	/**
@@ -63,6 +70,11 @@ class PawpedsUrlService {
 	 * @return URL link to pedigree
 	 */
 	public String getPedigreeUrl(long id) {
-		return String.format(URL_PEDIGREE, id);
+		LOGGER.info("getPedigreeUrl with id {}", id);
+		return encodeUrl(String.format(URL_PEDIGREE, id));
+	}
+
+	String encodeUrl(String url) {
+		return url.replaceAll("\\s", "%20");
 	}
 }

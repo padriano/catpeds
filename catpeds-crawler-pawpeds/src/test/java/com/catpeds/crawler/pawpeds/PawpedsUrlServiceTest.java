@@ -45,13 +45,14 @@ public class PawpedsUrlServiceTest {
 		criteria.setBornBefore(LocalDate.of(1981, 12, 31));
 		criteria.setNationalityCountryCode("SE");
 		criteria.setLocationCountryCode("GB");
-		criteria.setName("Lothiriel");
+		criteria.setName("Lothiriel de Rivendell's Land");
 
 		// When
 		String url = pawpedsUrlService.getAdvancedSearchUrl(criteria);
 
 		// Then
-		String expectedUrl = "https://www.pawpeds.com/db/?a=as&p=nfo&date=iso&name=Lothiriel&ems=&sex=B&"
+		String expectedUrl = "https://www.pawpeds.com/db/?a=as&p=nfo&date=iso&"
+				+ "name=Lothiriel%20de%20Rivendell's%20Land&ems=&sex=B&"
 				+ "born_after=1980-01-01&born_before=1981-12-31&born_in=SE&lives_in=GB"
 				+ "&picture=B&health_info=B&g=2";
 		assertEquals(expectedUrl, url);
