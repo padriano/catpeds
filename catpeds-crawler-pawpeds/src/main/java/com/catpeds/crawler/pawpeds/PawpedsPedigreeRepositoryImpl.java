@@ -74,7 +74,10 @@ class PawpedsPedigreeRepositoryImpl implements PawpedsPedigreeRepository {
 	 */
 	@Override
 	public Collection<Pedigree> findAll(PedigreeCriteria criteria) {
+		LOGGER.info("findAll with criteria {}", criteria);
+
 		String searchUrl = pawpedsUrlService.getAdvancedSearchUrl(criteria);
+		LOGGER.debug("URL for advanced search {}", searchUrl);
 		return getAndParsePawpedsDocument(searchUrl, pawpedsSearchResultParser::parseSearch, Arrays.asList());
 	}
 
@@ -83,7 +86,10 @@ class PawpedsPedigreeRepositoryImpl implements PawpedsPedigreeRepository {
 	 */
 	@Override
 	public Collection<Pedigree> findAllOffspring(long id) {
+		LOGGER.info("findAllOffspring with id {}", id);
+
 		String offspringSearchUrl = pawpedsUrlService.getOffspringsSearchUrl(id);
+		LOGGER.debug("URL for offsprings search {}", offspringSearchUrl);
 		return getAndParsePawpedsDocument(offspringSearchUrl, pawpedsSearchResultParser::parseOffsprings,
 				Arrays.asList());
 	}
@@ -93,9 +99,12 @@ class PawpedsPedigreeRepositoryImpl implements PawpedsPedigreeRepository {
 	 */
 	@Override
 	public Optional<Pedigree> findOne(long id) {
+		LOGGER.info("findOne with id {}", id);
+
 		// get pedigree information
-		String offspringSearchUrl = pawpedsUrlService.getPedigreeUrl(id);
-		Optional<Pedigree> pedigree = getAndParsePawpedsDocument(offspringSearchUrl, pawpedsSearchResultParser::parsePedigree,
+		String pedigreeSearchUrl = pawpedsUrlService.getPedigreeUrl(id);
+		LOGGER.debug("URL for pedigree search {}", pedigreeSearchUrl);
+		Optional<Pedigree> pedigree = getAndParsePawpedsDocument(pedigreeSearchUrl, pawpedsSearchResultParser::parsePedigree,
 				Optional.empty());
 
 		// populate with the offspring list
