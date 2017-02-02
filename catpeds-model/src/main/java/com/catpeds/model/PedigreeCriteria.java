@@ -5,6 +5,8 @@ package com.catpeds.model;
 
 import java.time.LocalDate;
 
+import com.google.common.base.MoreObjects;
+
 /**
  * POJO representing the fields that usually it is expected that a search can be
  * done on the search engines.
@@ -109,5 +111,15 @@ public class PedigreeCriteria {
 	 */
 	public void setLocationCountryCode(String locationCountryCode) {
 		this.locationCountryCode = locationCountryCode;
+	}
+
+	/**
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return MoreObjects.toStringHelper(this).add("name", name).add("bornAfter", bornAfter)
+				.add("bornBefore", bornBefore).add("nationalityCountryCode", nationalityCountryCode)
+				.add("locationCountryCode", locationCountryCode).toString();
 	}
 }
