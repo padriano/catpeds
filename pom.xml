@@ -15,6 +15,7 @@
     <module>catpeds-model</module>
     <module>catpeds-bom</module>
     <module>catpeds-crawler-pawpeds</module>
+    <module>catpeds-rest</module>
   </modules>
   
   <properties>
@@ -193,6 +194,10 @@
         <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-project-info-reports-plugin</artifactId>
+        </plugin>
+        <plugin>
+          <groupId>org.springframework.boot</groupId>
+          <artifactId>spring-boot-maven-plugin</artifactId>
         </plugin>
     </plugins>
   </build>
