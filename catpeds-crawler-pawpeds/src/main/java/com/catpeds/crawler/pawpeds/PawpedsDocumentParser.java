@@ -10,6 +10,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import javax.inject.Named;
+
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -28,6 +30,7 @@ import com.google.common.base.Objects;
  * @author padriano
  *
  */
+@Named
 class PawpedsDocumentParser {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(PawpedsDocumentParser.class);

@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.net.SocketTimeoutException;
 import java.util.Optional;
 
+import javax.inject.Named;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.slf4j.Logger;
@@ -18,6 +20,7 @@ import org.slf4j.LoggerFactory;
  * @author padriano
  *
  */
+@Named
 class DocumentRepositoryImpl implements DocumentRepository {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(DocumentRepositoryImpl.class);

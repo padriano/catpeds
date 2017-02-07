@@ -2,6 +2,8 @@ package com.catpeds.crawler.pawpeds;
 
 import static com.google.common.base.Strings.nullToEmpty;
 
+import javax.inject.Named;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -13,6 +15,7 @@ import com.catpeds.model.PedigreeCriteria;
  * @author padriano
  *
  */
+@Named
 class PawpedsUrlService {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(PawpedsUrlService.class);
