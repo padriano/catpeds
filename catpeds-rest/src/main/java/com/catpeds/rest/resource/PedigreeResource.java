@@ -48,4 +48,12 @@ public class PedigreeResource extends ResourceSupport {
 		}
 		return false;
 	}
+
+	/**
+	 * @see org.springframework.hateoas.ResourceSupport#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		return super.hashCode();
+	}
 }
