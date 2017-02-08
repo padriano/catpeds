@@ -9,10 +9,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @author padriano
  *
  */
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = "com.catpeds")
 public class Application {
 
-	private Application() { }
+	Application() { }
 
 	public static void main(String[] args) {
 		SpringApplication.run(Application.class, args);
