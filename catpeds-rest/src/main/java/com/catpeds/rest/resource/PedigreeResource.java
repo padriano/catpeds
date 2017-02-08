@@ -43,10 +43,7 @@ public class PedigreeResource extends ResourceSupport {
 		if (!super.equals(obj)) {
 			return false;
 		}
-		if (Objects.equals(pedigree, ((PedigreeResource) obj).getPedigree())) {
-			return true;
-		}
-		return false;
+		return Objects.equals(pedigree, ((PedigreeResource) obj).getPedigree());
 	}
 
 	/**
