@@ -54,6 +54,6 @@ public class PedigreeResource extends ResourceSupport {
 	 */
 	@Override
 	public int hashCode() {
-		return super.hashCode();
+		return Objects.hash(super.hashCode(), pedigree);
 	}
 }
