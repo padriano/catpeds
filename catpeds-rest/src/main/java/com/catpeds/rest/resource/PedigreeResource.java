@@ -1,5 +1,7 @@
 package com.catpeds.rest.resource;
 
+import java.util.Objects;
+
 import org.springframework.hateoas.ResourceSupport;
 
 import com.catpeds.model.Pedigree;
@@ -31,5 +33,19 @@ public class PedigreeResource extends ResourceSupport {
 	 */
 	public Pedigree getPedigree() {
 		return pedigree;
+	}
+
+	/**
+	 * @see org.springframework.hateoas.ResourceSupport#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (!super.equals(obj)) {
+			return false;
+		}
+		if (Objects.equals(pedigree, ((PedigreeResource) obj).getPedigree())) {
+			return true;
+		}
+		return false;
 	}
 }
