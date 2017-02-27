@@ -23,8 +23,8 @@
     <catpeds.url>https://github.com/padriano/catpeds</catpeds.url>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <junit.version>4.12</junit.version>
-    <assertj.version>3.6.1</assertj.version>
-    <mockito.version>2.6.8</mockito.version>
+    <assertj.version>3.6.2</assertj.version>
+    <mockito.version>2.7.11</mockito.version>
     <hamcrest.version>1.3</hamcrest.version>
     <JUnitParams.version>1.0.6</JUnitParams.version>
   </properties>
@@ -139,7 +139,7 @@
         <plugin>
             <groupId>org.jacoco</groupId>
             <artifactId>jacoco-maven-plugin</artifactId>
-            <version>0.7.8</version>
+            <version>0.7.9</version>
         </plugin>
         <plugin>
             <groupId>org.eluder.coveralls</groupId>
