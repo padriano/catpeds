@@ -6,7 +6,7 @@
   <parent>
     <groupId>com.catpeds</groupId>
     <artifactId>catpeds</artifactId>
-    <version>${catpeds.version}</version>
+    <version>1.0-SNAPSHOT</version>
   </parent>
   
   <artifactId>catpeds-bom</artifactId>
@@ -75,12 +75,12 @@
       <dependency>
         <groupId>com.catpeds</groupId>
         <artifactId>catpeds-model</artifactId>
-        <version>${catpeds.version}</version>
+        <version>1.0-SNAPSHOT</version>
       </dependency>
       <dependency>
         <groupId>com.catpeds</groupId>
         <artifactId>catpeds-crawler-pawpeds</artifactId>
-        <version>${catpeds.version}</version>
+        <version>1.0-SNAPSHOT</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
