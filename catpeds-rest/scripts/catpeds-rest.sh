@@ -5,7 +5,7 @@ prog="catpeds-rest"
 
 start() {
     echo "Starting $prog..."
-    nohup java -jar catpeds-rest-1.0-SNAPSHOT.jar > console.log 2>&1&
+    nohup java -jar ${project.build.finalName}.jar > console.log 2>&1&
     echo $! > $prog.pid
 }
 
