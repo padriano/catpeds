@@ -11,7 +11,7 @@ start() {
 
 stop() {
     echo "Stopping $prog..."
-    kill -TERM $(< $prog.pid)
+    kill -TERM $(cat $prog.pid)
     rm -f $prog.pid
 }
 
@@ -19,7 +19,8 @@ status() {
     echo "Status $prog:"
     if [ -f "$prog.pid" ]
     then
-        if [[ "$(ps -ef | grep $(< $prog.pid) | grep -v 'grep')" != "" ]];then
+        if [ "$(ps -ef | grep -f $prog.pid | grep -v 'grep')" != "" ];
+        then
             echo "Running"
         else
             echo "Not Running"
