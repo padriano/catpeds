@@ -17,6 +17,9 @@
     <docker.image.prefix>npadriano</docker.image.prefix>
     <jar.dependencies.path>lib/</jar.dependencies.path>
     <scripts.path>scripts</scripts.path>
+    <!-- Sample property values that need to be overriden in the CI mvn command -->
+    <dns.domain>example</dns.domain>
+    <dns.token>foobar</dns.token>
   </properties>
   
   <dependencyManagement>
