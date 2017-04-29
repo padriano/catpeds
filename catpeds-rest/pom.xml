@@ -15,9 +15,16 @@
   <properties>
     <docker.registry>docker.io</docker.registry>
     <docker.image.prefix>npadriano</docker.image.prefix>
+    <deploy.artifacts.path>${project.build.directory}/deploy</deploy.artifacts.path>
     <jar.dependencies.path>lib/</jar.dependencies.path>
     <scripts.path>scripts</scripts.path>
+    <script.app>${artifactId}.sh</script.app>
+    <deploy.user>ubuntu</deploy.user>
+    <deploy.server>catpeds.duckdns.org</deploy.server>
+    <deploy.server.path>~/${artifactId}</deploy.server.path>
+    <deploy.stop.timeout>5</deploy.stop.timeout>
     <!-- Sample property values that need to be overriden in the CI mvn command -->
+    <deploy.key.path>/Users/padriano/.ssh/aws-key-pair-1.pem</deploy.key.path>
     <dns.domain>example</dns.domain>
     <dns.token>foobar</dns.token>
   </properties>
@@ -96,6 +103,11 @@
           <artifactId>maven-antrun-plugin</artifactId>
           <version>1.8</version>
         </plugin>
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>exec-maven-plugin</artifactId>
+          <version>1.6.0</version>
+        </plugin>
       </plugins>
     </pluginManagement>
     
@@ -113,12 +125,12 @@
           <resources>
             <resource>
               <targetPath>/</targetPath>
-              <directory>${project.build.directory}</directory>
+              <directory>${deploy.artifacts.path}</directory>
               <include>${project.build.finalName}.jar</include>
             </resource>
             <resource>
               <targetPath>/</targetPath>
-              <directory>${project.build.directory}</directory>
+              <directory>${deploy.artifacts.path}</directory>
               <include>${jar.dependencies.path}</include>
             </resource>
           </resources>
@@ -150,6 +162,7 @@
               <classpathPrefix>${jar.dependencies.path}</classpathPrefix>
             </manifest>
           </archive>
+          <outputDirectory>${deploy.artifacts.path}</outputDirectory>
         </configuration>
       </plugin>
       <plugin>
@@ -163,7 +176,7 @@
               <goal>copy-dependencies</goal>
             </goals>
             <configuration>
-              <outputDirectory>${project.build.directory}/${jar.dependencies.path}</outputDirectory>
+              <outputDirectory>${deploy.artifacts.path}/${jar.dependencies.path}</outputDirectory>
               <includeScope>runtime</includeScope>
             </configuration>
           </execution>
@@ -179,7 +192,7 @@
               <goal>copy-resources</goal>
             </goals>
             <configuration>
-              <outputDirectory>${project.build.directory}</outputDirectory>
+              <outputDirectory>${deploy.artifacts.path}</outputDirectory>
               <resources>
                 <resource>
                   <directory>${scripts.path}</directory>
@@ -200,7 +213,7 @@
             <configuration>
               <target>
                 <chmod perm="700">
-                  <fileset dir="${project.build.directory}">
+                  <fileset dir="${deploy.artifacts.path}">
                     <include name="*.sh"/>
                   </fileset>
                 </chmod>
@@ -209,6 +222,81 @@
             <goals>
               <goal>run</goal>
             </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>stop-server</id>
+<!--             <phase>install</phase> -->
+            <goals>
+              <goal>exec</goal>
+            </goals>
+            <configuration>
+              <executable>ssh</executable>
+              <arguments>
+                <argument>-i</argument>
+                <argument>${deploy.key.path}</argument>
+                <argument>${deploy.user}@${deploy.server}</argument>
+                <argument>-tt</argument>
+                <argument>sh ${deploy.server.path}/${script.app} stop &amp;&amp; sleep ${deploy.stop.timeout}</argument>
+              </arguments>
+            </configuration>
+          </execution>
+          <execution>
+            <id>clean-server</id>
+<!--             <phase>install</phase> -->
+            <goals>
+              <goal>exec</goal>
+            </goals>
+            <configuration>
+              <executable>ssh</executable>
+              <arguments>
+                <argument>-i</argument>
+                <argument>${deploy.key.path}</argument>
+                <argument>${deploy.user}@${deploy.server}</argument>
+                <argument>-tt</argument>
+                <argument>rm -rf ${deploy.server.path} &amp;&amp; rm ${artifactId}.pid</argument>
+              </arguments>
+            </configuration>
+          </execution>
+          <execution>
+            <id>deploy-server</id>
+<!--             <phase>install</phase> -->
+            <goals>
+              <goal>exec</goal>
+            </goals>
+            <configuration>
+              <executable>scp</executable>
+              <arguments>
+                <argument>-p</argument>
+                <argument>-r</argument>
+                <argument>-i</argument>
+                <argument>${deploy.key.path}</argument>
+                <argument>${deploy.artifacts.path}</argument>
+                <argument>${deploy.user}@${deploy.server}:${deploy.server.path}</argument>
+              </arguments>
+            </configuration>
+          </execution>
+          <execution>
+            <id>start-server</id>
+<!--             <phase>install</phase> -->
+            <goals>
+              <goal>exec</goal>
+            </goals>
+            <configuration>
+              <executable>ssh</executable>
+              <arguments>
+                <argument>-i</argument>
+                <argument>${deploy.key.path}</argument>
+                <argument>${deploy.user}@${deploy.server}</argument>
+                <argument>-T</argument>
+                <argument>sh ${deploy.server.path}/${script.app} start</argument>
+              </arguments>
+            </configuration>
           </execution>
         </executions>
       </plugin>

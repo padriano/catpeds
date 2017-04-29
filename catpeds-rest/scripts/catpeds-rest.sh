@@ -1,23 +1,28 @@
 #!/bin/sh
 
 RETVAL=0
-prog="catpeds-rest"
+prog="${artifactId}"
 
 start() {
     echo "Starting $prog..."
-    nohup java -jar ${project.build.finalName}.jar > console.log 2>&1&
-    echo $! > $prog.pid
+    nohup java -jar ${deploy.server.path}/${project.build.finalName}.jar > ~/console.log 2>&1&
+    echo $! > ~/$prog.pid
 }
 
 stop() {
     echo "Stopping $prog..."
-    kill -TERM $(cat $prog.pid)
-    rm -f $prog.pid
+    if [ -f "~/$prog.pid" ]
+    then
+    	kill -TERM $(cat $prog.pid)
+    	rm -f ~/$prog.pid
+    else
+        echo "Not Running"
+    fi
 }
 
 status() {
     echo "Status $prog:"
-    if [ -f "$prog.pid" ]
+    if [ -f "~/$prog.pid" ]
     then
         if [ "$(ps -ef | grep -f $prog.pid | grep -v 'grep')" != "" ];
         then
