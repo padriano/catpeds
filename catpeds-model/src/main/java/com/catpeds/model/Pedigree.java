@@ -288,6 +288,9 @@ public class Pedigree {
 			}
 		};
 
+		/**
+		 * @return Textual representation of the gender when described as parenting.
+		 */
 		public abstract String asParent();
 	}
 }
