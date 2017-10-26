@@ -4,8 +4,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
-import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
 import java.util.Optional;
 
@@ -15,12 +13,14 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.hateoas.Link;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.catpeds.crawler.pawpeds.PawpedsPedigreeRepository;
 import com.catpeds.model.Pedigree;
+import com.catpeds.rest.controller.PedigreeController.HateoasFactory;
 import com.catpeds.rest.resource.PedigreeResource;
 
 /**
@@ -35,6 +35,9 @@ public class PedigreeControllerTest {
 
 	@MockBean
 	private PawpedsPedigreeRepository pawpedsPedigreeRepository;
+
+	@MockBean
+	private HateoasFactory hateoasFactory;
 
 	@Inject
 	private PedigreeController pedigreeController;
@@ -51,6 +54,8 @@ public class PedigreeControllerTest {
 		Pedigree pedigree = mock(Pedigree.class);
 		when(pedigree.getId()).thenReturn(pedigreeId);
 		when(pawpedsPedigreeRepository.findOne(pedigreeId)).thenReturn(Optional.of(pedigree));
+		Link link = mock(Link.class);
+		when(hateoasFactory.createResourceLink(pedigree)).thenReturn(link);
 
 		// When
 		ResponseEntity<PedigreeResource> result = pedigreeController.findOne(pedigreeId);
@@ -59,9 +64,7 @@ public class PedigreeControllerTest {
 		assertEquals("Expecting an OK status code", HttpStatus.OK, result.getStatusCode());
 		assertEquals("Expecting the pedigree returned by the repository", pedigree, result.getBody().getPedigree());
 		assertEquals("Expecting just a link", 1, result.getBody().getLinks().size());
-		assertEquals("Expecting a link to the pedigree",
-				linkTo(methodOn(PedigreeController.class).findOne(pedigreeId)).withSelfRel(),
-				result.getBody().getLinks().get(0));
+		assertEquals("Expecting a link to the pedigree", link, result.getBody().getLinks().get(0));
 	}
 
 	/**

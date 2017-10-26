@@ -7,8 +7,10 @@ import javax.inject.Inject;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.hateoas.Link;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -30,9 +32,12 @@ public class PedigreeController {
 
 	private final PawpedsPedigreeRepository pawpedsPedigreeRepository;
 
+	private final HateoasFactory hateoasFactory;
+
 	@Inject
-	PedigreeController(PawpedsPedigreeRepository pawpedsPedigreeRepository) {
+	PedigreeController(PawpedsPedigreeRepository pawpedsPedigreeRepository, HateoasFactory hateoasFactory) {
 		this.pawpedsPedigreeRepository = pawpedsPedigreeRepository;
+		this.hateoasFactory = hateoasFactory;
 	}
 
 	/**
@@ -56,11 +61,19 @@ public class PedigreeController {
 
 	ResponseEntity<PedigreeResource> mapToFound(Pedigree pedigree) {
 		PedigreeResource pedigreeResource = new PedigreeResource(pedigree);
-        pedigreeResource.add(linkTo(methodOn(PedigreeController.class).findOne(pedigree.getId())).withSelfRel());
+        pedigreeResource.add(hateoasFactory.createResourceLink(pedigree));
         return new ResponseEntity<>(pedigreeResource, HttpStatus.OK);
 	}
 
 	ResponseEntity<PedigreeResource> mapToNotFound() {
 		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+	}
+
+	@Service
+	static class HateoasFactory {
+
+		Link createResourceLink(Pedigree pedigree) {
+			return linkTo(methodOn(PedigreeController.class).findOne(pedigree.getId())).withSelfRel();
+		}
 	}
 }
