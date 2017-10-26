@@ -17,12 +17,12 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <java.version>1.8</java.version>
-    <guava.version>22.0</guava.version>
+    <guava.version>23.2-jre</guava.version>
     <jsoup.version>1.10.3</jsoup.version>
     <inject.version>1</inject.version>
     <slf4j.version>1.7.25</slf4j.version>
-    <spring.version>1.5.4.RELEASE</spring.version>
-    <json-path.version>2.2.0</json-path.version>
+    <spring.version>1.5.7.RELEASE</spring.version>
+    <json-path.version>2.4.0</json-path.version>
   </properties>
 
   <dependencyManagement>
