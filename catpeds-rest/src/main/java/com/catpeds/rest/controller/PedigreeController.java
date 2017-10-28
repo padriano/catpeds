@@ -1,23 +1,26 @@
 package com.catpeds.rest.controller;
 
-import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
-import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
+import static java.util.stream.Collectors.collectingAndThen;
+import static java.util.stream.Collectors.toList;
+
+import java.util.Collection;
 
 import javax.inject.Inject;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.hateoas.Link;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.catpeds.crawler.pawpeds.PawpedsPedigreeRepository;
 import com.catpeds.model.Pedigree;
+import com.catpeds.model.PedigreeCriteria;
 import com.catpeds.rest.resource.PedigreeResource;
+import com.catpeds.rest.resource.PedigreeResourceFactory;
 
 /**
  * {@link Pedigree} information REST controller endpoint.
@@ -32,12 +35,16 @@ public class PedigreeController {
 
 	private final PawpedsPedigreeRepository pawpedsPedigreeRepository;
 
-	private final HateoasFactory hateoasFactory;
+	private final PedigreeResourceFactory pedigreeResourceFactory;
+
+	private final ResponseEntityFactory responseEntityFactory;
 
 	@Inject
-	PedigreeController(PawpedsPedigreeRepository pawpedsPedigreeRepository, HateoasFactory hateoasFactory) {
+	PedigreeController(PawpedsPedigreeRepository pawpedsPedigreeRepository,
+			PedigreeResourceFactory pedigreeResourceFactory, ResponseEntityFactory responseEntityFactory) {
 		this.pawpedsPedigreeRepository = pawpedsPedigreeRepository;
-		this.hateoasFactory = hateoasFactory;
+		this.pedigreeResourceFactory = pedigreeResourceFactory;
+		this.responseEntityFactory = responseEntityFactory;
 	}
 
 	/**
@@ -55,25 +62,38 @@ public class PedigreeController {
 
 		return pawpedsPedigreeRepository
 				.findOne(id)
-				.map(this::mapToFound)
-				.orElseGet(this::mapToNotFound);
+				.map(pedigreeResourceFactory::create)
+				.map(responseEntityFactory::createOK)
+				.orElseGet(responseEntityFactory::createNotFound);
     }
 
-	ResponseEntity<PedigreeResource> mapToFound(Pedigree pedigree) {
-		PedigreeResource pedigreeResource = new PedigreeResource(pedigree);
-        pedigreeResource.add(hateoasFactory.createResourceLink(pedigree));
-        return new ResponseEntity<>(pedigreeResource, HttpStatus.OK);
+	/**
+	 * Find the pedigree's information for the searched cats.
+	 *
+	 * @param name
+	 *            cat's pedigree name
+	 * @param nationalityCountryCode
+	 *            country code where the cat is living
+	 * @param locationCountryCode
+	 *            country code where the cat was boarn
+	 *
+	 * @return {@link ResponseEntity} instance for the {@link Collection} of
+	 *         {@link PedigreeResource}'s
+	 */
+	@GetMapping("/pedigree")
+	public ResponseEntity<Collection<PedigreeResource>> find(
+			@RequestParam(value = "name", required = false) String name,
+			@RequestParam(value = "nationalityCountryCode", required = false) String nationalityCountryCode,
+			@RequestParam(value = "locationCountryCode", required = false) String locationCountryCode) {
+		LOGGER.info("findName with name {}", name);
+
+		PedigreeCriteria criteria = new PedigreeCriteria();
+		criteria.setName(name);
+		criteria.setNationalityCountryCode(nationalityCountryCode);
+		criteria.setLocationCountryCode(locationCountryCode);
+
+		return pawpedsPedigreeRepository.findAll(criteria).stream().map(pedigreeResourceFactory::create)
+				.collect(collectingAndThen(toList(), responseEntityFactory::createOK));
 	}
 
-	ResponseEntity<PedigreeResource> mapToNotFound() {
-		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-	}
-
-	@Service
-	static class HateoasFactory {
-
-		Link createResourceLink(Pedigree pedigree) {
-			return linkTo(methodOn(PedigreeController.class).findOne(pedigree.getId())).withSelfRel();
-		}
-	}
 }
