@@ -2,6 +2,7 @@ package com.catpeds.rest.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 
 /**
  * Factory to instantiate {@link ResponseEntity} objects for a specific
@@ -10,6 +11,7 @@ import org.springframework.http.ResponseEntity;
  * @author padriano
  *
  */
+@Service
 class ResponseEntityFactory {
 
 	/**

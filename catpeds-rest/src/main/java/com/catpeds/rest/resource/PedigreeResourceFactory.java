@@ -7,6 +7,7 @@ import javax.inject.Inject;
 
 import org.springframework.hateoas.Link;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import com.catpeds.model.Pedigree;
 import com.catpeds.rest.controller.PedigreeController;
@@ -17,6 +18,7 @@ import com.catpeds.rest.controller.PedigreeController;
  * @author padriano
  *
  */
+@Service
 public class PedigreeResourceFactory {
 
 	private final HateoasFactory hateoasFactory;
