@@ -21,7 +21,7 @@
     <jsoup.version>1.10.3</jsoup.version>
     <inject.version>1</inject.version>
     <slf4j.version>1.7.25</slf4j.version>
-    <spring.boot.version>1.5.7.RELEASE</spring.boot.version>
+    <spring.boot.version>1.5.8.RELEASE</spring.boot.version>
     <spring.framework.version>4.3.12.RELEASE</spring.framework.version>
     <aspectj.version>1.8.12</aspectj.version>
     <json-path.version>2.4.0</json-path.version>
