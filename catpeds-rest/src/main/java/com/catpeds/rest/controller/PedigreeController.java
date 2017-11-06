@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.catpeds.aop.Track;
 import com.catpeds.crawler.pawpeds.PawpedsPedigreeRepository;
 import com.catpeds.model.Pedigree;
 import com.catpeds.model.PedigreeCriteria;
@@ -56,6 +57,7 @@ public class PedigreeController {
 	 *         {@link HttpStatus#OK} when found or {@link HttpStatus#NOT_FOUND}
 	 *         otherwise
 	 */
+	@Track
 	@GetMapping("/pedigree/{id}")
 	public ResponseEntity<PedigreeResource> findOne(@PathVariable long id) {
 		LOGGER.info("findOne with id {}", id);
@@ -80,6 +82,7 @@ public class PedigreeController {
 	 * @return {@link ResponseEntity} instance for the {@link Collection} of
 	 *         {@link PedigreeResource}'s
 	 */
+	@Track
 	@GetMapping("/pedigree")
 	public ResponseEntity<Collection<PedigreeResource>> find(
 			@RequestParam(value = "name", required = false) String name,

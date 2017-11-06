@@ -16,6 +16,7 @@
     <module>catpeds-bom</module>
     <module>catpeds-crawler-pawpeds</module>
     <module>catpeds-rest</module>
+    <module>catpeds-aop</module>
   </modules>
   
   <properties>
