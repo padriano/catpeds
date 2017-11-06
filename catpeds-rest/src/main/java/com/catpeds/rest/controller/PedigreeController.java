@@ -77,7 +77,7 @@ public class PedigreeController {
 	 * @param nationalityCountryCode
 	 *            country code where the cat is living
 	 * @param locationCountryCode
-	 *            country code where the cat was boarn
+	 *            country code where the cat was born
 	 *
 	 * @return {@link ResponseEntity} instance for the {@link Collection} of
 	 *         {@link PedigreeResource}'s
@@ -88,7 +88,8 @@ public class PedigreeController {
 			@RequestParam(value = "name", required = false) String name,
 			@RequestParam(value = "nationalityCountryCode", required = false) String nationalityCountryCode,
 			@RequestParam(value = "locationCountryCode", required = false) String locationCountryCode) {
-		LOGGER.info("findName with name {}", name);
+		LOGGER.info("find with name {} nationalityCountryCode {} locationCountryCode {}", name, nationalityCountryCode,
+				locationCountryCode);
 
 		PedigreeCriteria criteria = new PedigreeCriteria();
 		criteria.setName(name);
