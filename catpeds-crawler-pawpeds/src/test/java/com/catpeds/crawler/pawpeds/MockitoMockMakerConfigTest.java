@@ -32,9 +32,9 @@ public class MockitoMockMakerConfigTest {
 		InputStream stream = Test.class.getResourceAsStream("/mockito-extensions/org.mockito.plugins.MockMaker");
 		assertNotNull("The mockito plugin config file for mock maker must exist in the classpath", stream);
 
-		String line = Files.readFirstLine(
+		String line = Files.asCharSource(
 				new File(Test.class.getResource("/mockito-extensions/org.mockito.plugins.MockMaker").toURI()),
-				StandardCharsets.UTF_8);
+				StandardCharsets.UTF_8).readFirstLine();
 		assertEquals("mock-maker-inline", line);
 	}
 
@@ -43,9 +43,9 @@ public class MockitoMockMakerConfigTest {
 	 */
 	@Test
 	public void testMockMakerFileContent() throws Exception {
-		String line = Files.readFirstLine(
+		String line = Files.asCharSource(
 				new File(Test.class.getResource("/mockito-extensions/org.mockito.plugins.MockMaker").toURI()),
-				StandardCharsets.UTF_8);
+				StandardCharsets.UTF_8).readFirstLine();
 		assertEquals("mock-maker-inline", line);
 	}
 
