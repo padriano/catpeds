@@ -44,11 +44,6 @@ class PawpedsPedigreeRepositoryImpl implements PawpedsPedigreeRepository {
 	}
 
 	<T> T getAndParsePawpedsDocument(String url,
-			Function<Document, T> parserFunction) {
-		return getAndParsePawpedsDocument(url, parserFunction, null);
-	}
-
-	<T> T getAndParsePawpedsDocument(String url,
 			Function<Document, T> parserFunction, T defaultResult) {
 		try {
 			Optional<Document> searchDocument = documentRepository.get(url);

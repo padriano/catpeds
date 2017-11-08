@@ -2,7 +2,6 @@ package com.catpeds.model;
 
 import java.time.LocalDate;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -246,14 +245,6 @@ public class Pedigree {
 	public void addOffspring(Long... offsprings) {
 		this.offsprings.addAll(Arrays.asList(offsprings));
 	}
-
-	/**
-	 * @see #offsprings
-	 */
-	public void addOffsprings(Collection<Long> offsprings) {
-		this.offsprings.addAll(offsprings);
-	}
-
 
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()

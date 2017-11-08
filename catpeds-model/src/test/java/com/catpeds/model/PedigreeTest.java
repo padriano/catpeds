@@ -43,4 +43,28 @@ public class PedigreeTest {
 				+ "nationalityCountryCode=SE, locationCountryCode=GB, title=CH, inbreeding=12.3, sire=22, dam=11}";
 		assertEquals(expectedResult, result);
 	}
+
+	/**
+	 * Test the {@link Gender#asParent()} description for M.
+	 */
+	@Test
+	public void testGenderAsParentM() {
+		// When
+		String description = Gender.M.asParent();
+
+		// Then
+		assertEquals("Sire", description);
+	}
+
+	/**
+	 * Test the {@link Gender#asParent()} description for F.
+	 */
+	@Test
+	public void testGenderAsParentF() {
+		// When
+		String description = Gender.F.asParent();
+
+		// Then
+		assertEquals("Dam", description);
+	}
 }
