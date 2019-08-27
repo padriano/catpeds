@@ -3,4 +3,3 @@ script: mvn -B clean install
 jdk:
   - oraclejdk8
   - openjdk8
-  -
