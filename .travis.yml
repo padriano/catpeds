@@ -4,6 +4,6 @@ jdk:
   - openjdk8
 addons:
   sonarcloud:
-    organization: "padriano_catpeds"
+    organization: "padriano"
       token:
         secure: ${SONAR_TOKEN}
