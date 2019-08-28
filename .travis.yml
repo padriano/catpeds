@@ -5,3 +5,5 @@ jdk:
 addons:
   sonarcloud:
     organization: "padriano_catpeds"
+      token:
+        secure: ${SONAR_TOKEN}
