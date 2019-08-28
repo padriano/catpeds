@@ -24,6 +24,7 @@
     <spring.boot.version>1.5.22.RELEASE</spring.boot.version>
     <spring.framework.version>4.3.25.RELEASE</spring.framework.version>
     <aspectj.version>1.8.14</aspectj.version>
+    <jackson.version>2.9.9.3</jackson.version>
     <json-path.version>2.4.0</json-path.version>
   </properties>
 
@@ -59,6 +60,12 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-hateoas</artifactId>
         <version>${spring.boot.version}</version>
+        <exclusions>
+          <exclusion>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+          </exclusion>
+        </exclusions>
       </dependency>
       <dependency>
         <groupId>org.springframework</groupId>
@@ -69,6 +76,11 @@
         <groupId>org.aspectj</groupId>
         <artifactId>aspectjweaver</artifactId>
         <version>${aspectj.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.fasterxml.jackson.core</groupId>
+        <artifactId>jackson-databind</artifactId>
+        <version>${jackson.version}</version>
       </dependency>
       <dependency>
         <groupId>org.springframework.boot</groupId>
