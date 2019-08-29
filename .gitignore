@@ -25,6 +25,7 @@ local.properties
 .loadpath
 .recommenders
 .idea
+.java-version
 
 # Eclipse Core
 .project
