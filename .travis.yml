@@ -1,7 +1,8 @@
 language: java
-script: mvn -B clean install jacoco:report coveralls:report sonar:sonar -Pcoverage -Dsonar.projectKey=padriano_catpeds
+script: mvn -B clean install jacoco:report sonar:sonar -Pcoverage -Dsonar.projectKey=padriano_catpeds
 jdk:
   - openjdk8
+  - openjdk11
 addons:
   sonarcloud:
     organization: "padriano"
