@@ -235,7 +235,6 @@
         <executions>
           <execution>
             <id>stop-server</id>
-<!--             <phase>install</phase> -->
             <goals>
               <goal>exec</goal>
             </goals>
@@ -252,7 +251,6 @@
           </execution>
           <execution>
             <id>clean-server</id>
-<!--             <phase>install</phase> -->
             <goals>
               <goal>exec</goal>
             </goals>
@@ -269,7 +267,6 @@
           </execution>
           <execution>
             <id>deploy-server</id>
-<!--             <phase>install</phase> -->
             <goals>
               <goal>exec</goal>
             </goals>
@@ -287,7 +284,6 @@
           </execution>
           <execution>
             <id>start-server</id>
-<!--             <phase>install</phase> -->
             <goals>
               <goal>exec</goal>
             </goals>

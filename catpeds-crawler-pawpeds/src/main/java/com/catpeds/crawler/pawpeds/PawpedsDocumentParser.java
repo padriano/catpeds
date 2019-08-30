@@ -135,7 +135,7 @@ class PawpedsDocumentParser {
 	/**
 	 * Converts an offsprings {@link Document} into {@link Pedigree}'s.
 	 *
-	 * @param offspringsDocument
+	 * @param pedigreeDocument
 	 *            HTML document with the offspring results content
 	 * @return a {@link List} of {@link Pedigree} representing the
 	 *         parsed pedigree results
