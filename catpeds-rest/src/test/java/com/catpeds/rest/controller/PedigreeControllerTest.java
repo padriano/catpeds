@@ -1,7 +1,6 @@
 package com.catpeds.rest.controller;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertSame;
+import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -136,5 +135,37 @@ public class PedigreeControllerTest {
 		assertEquals("Expecting 2 pedigree's", 2, pedigreeResources.size());
 		assertEquals("Expecting pedigree resource 1", pedigreeResource1, pedigreeResources.get(0));
 		assertEquals("Expecting pedigree resource 2", pedigreeResource2, pedigreeResources.get(1));
+	}
+
+
+	/**
+	 * Test that {@link PedigreeController#escapeParamFunc} returns null for empty parameter value.
+	 */
+	@Test
+	public void testEmptyParameterEscapeFunction() {
+		// Given
+		String param = "";
+
+		// When
+		String result = PedigreeController.escapeParamFunc.apply(param);
+
+		// Then
+		assertNull("Expecting null response", result);
+	}
+
+
+	/**
+	 * Test that {@link PedigreeController#escapeParamFunc} escapes parameter.
+	 */
+	@Test
+	public void testParameterEscapeFunction() {
+		// Given
+		String param = "A\nB\rC\tD";
+
+		// When
+		String result = PedigreeController.escapeParamFunc.apply(param);
+
+		// Then
+		assertEquals("Expecting escaped response", result, "A_B_C_D");
 	}
 }

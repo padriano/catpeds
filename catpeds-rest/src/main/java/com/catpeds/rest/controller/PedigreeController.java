@@ -4,9 +4,11 @@ import static java.util.stream.Collectors.collectingAndThen;
 import static java.util.stream.Collectors.toList;
 
 import java.util.Collection;
+import java.util.function.Function;
 
 import javax.inject.Inject;
 
+import com.google.common.base.Strings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -39,6 +41,8 @@ public class PedigreeController {
 	private final PedigreeResourceFactory pedigreeResourceFactory;
 
 	private final ResponseEntityFactory responseEntityFactory;
+
+	static final Function<String, String> escapeParamFunc = s -> Strings.isNullOrEmpty(s) ? null : s.replaceAll("[\n|\r|\t]", "_");
 
 	@Inject
 	PedigreeController(PawpedsPedigreeRepository pawpedsPedigreeRepository,
@@ -88,8 +92,9 @@ public class PedigreeController {
 			@RequestParam(value = "name", required = false) String name,
 			@RequestParam(value = "nationalityCountryCode", required = false) String nationalityCountryCode,
 			@RequestParam(value = "locationCountryCode", required = false) String locationCountryCode) {
-		LOGGER.info("find with name {} nationalityCountryCode {} locationCountryCode {}", name, nationalityCountryCode,
-				locationCountryCode);
+		LOGGER.info("find with name {} nationalityCountryCode {} locationCountryCode {}",
+				escapeParamFunc.apply(name), escapeParamFunc.apply(nationalityCountryCode),
+				escapeParamFunc.apply(locationCountryCode));
 
 		PedigreeCriteria criteria = new PedigreeCriteria();
 		criteria.setName(name);
