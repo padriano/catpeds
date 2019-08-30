@@ -1,14 +1,11 @@
 package com.catpeds.rest.controller;
 
-import static java.util.stream.Collectors.collectingAndThen;
-import static java.util.stream.Collectors.toList;
-
-import java.util.Collection;
-import java.util.function.Function;
-
-import javax.inject.Inject;
-
-import com.google.common.base.Strings;
+import com.catpeds.aop.Track;
+import com.catpeds.crawler.pawpeds.PawpedsPedigreeRepository;
+import com.catpeds.model.Pedigree;
+import com.catpeds.model.PedigreeCriteria;
+import com.catpeds.rest.resource.PedigreeResource;
+import com.catpeds.rest.resource.PedigreeResourceFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -18,12 +15,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.catpeds.aop.Track;
-import com.catpeds.crawler.pawpeds.PawpedsPedigreeRepository;
-import com.catpeds.model.Pedigree;
-import com.catpeds.model.PedigreeCriteria;
-import com.catpeds.rest.resource.PedigreeResource;
-import com.catpeds.rest.resource.PedigreeResourceFactory;
+import javax.inject.Inject;
+import java.util.Collection;
+
+import static java.util.stream.Collectors.collectingAndThen;
+import static java.util.stream.Collectors.toList;
 
 /**
  * {@link Pedigree} information REST controller endpoint.
@@ -42,15 +38,17 @@ public class PedigreeController {
 
 	private final ResponseEntityFactory responseEntityFactory;
 
-	static final Function<String, String> escapeParamFunc = s -> Strings.isNullOrEmpty(s) ? null : s.replaceAll("[\n|\r|\t]", "_");
+	private final ParamUtilsService paramUtilsService;
 
 	@Inject
 	PedigreeController(PawpedsPedigreeRepository pawpedsPedigreeRepository,
-			PedigreeResourceFactory pedigreeResourceFactory, ResponseEntityFactory responseEntityFactory) {
+			PedigreeResourceFactory pedigreeResourceFactory, ResponseEntityFactory responseEntityFactory,
+            ParamUtilsService paramUtilsService) {
 		this.pawpedsPedigreeRepository = pawpedsPedigreeRepository;
 		this.pedigreeResourceFactory = pedigreeResourceFactory;
 		this.responseEntityFactory = responseEntityFactory;
-	}
+        this.paramUtilsService = paramUtilsService;
+    }
 
 	/**
 	 * Find the pedigree information for the identified cat.
@@ -93,8 +91,8 @@ public class PedigreeController {
 			@RequestParam(value = "nationalityCountryCode", required = false) String nationalityCountryCode,
 			@RequestParam(value = "locationCountryCode", required = false) String locationCountryCode) {
 		LOGGER.info("find with name {} nationalityCountryCode {} locationCountryCode {}",
-				escapeParamFunc.apply(name), escapeParamFunc.apply(nationalityCountryCode),
-				escapeParamFunc.apply(locationCountryCode));
+                paramUtilsService.escapeParam(name), paramUtilsService.escapeParam(nationalityCountryCode),
+                paramUtilsService.escapeParam(locationCountryCode));
 
 		PedigreeCriteria criteria = new PedigreeCriteria();
 		criteria.setName(name);
