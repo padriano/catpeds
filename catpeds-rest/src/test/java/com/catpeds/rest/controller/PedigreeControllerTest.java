@@ -1,19 +1,10 @@
 package com.catpeds.rest.controller;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertSame;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
-
-import javax.inject.Inject;
-
+import com.catpeds.crawler.pawpeds.PawpedsPedigreeRepository;
+import com.catpeds.model.Pedigree;
+import com.catpeds.model.PedigreeCriteria;
+import com.catpeds.rest.resource.PedigreeResource;
+import com.catpeds.rest.resource.PedigreeResourceFactory;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
@@ -22,11 +13,16 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.catpeds.crawler.pawpeds.PawpedsPedigreeRepository;
-import com.catpeds.model.Pedigree;
-import com.catpeds.model.PedigreeCriteria;
-import com.catpeds.rest.resource.PedigreeResource;
-import com.catpeds.rest.resource.PedigreeResourceFactory;
+import javax.inject.Inject;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertSame;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
 
 /**
  * Unit test class for {@link PedigreeController}
@@ -46,6 +42,9 @@ public class PedigreeControllerTest {
 
 	@MockBean
 	private ResponseEntityFactory responseEntityFactory;
+
+	@MockBean
+	private ParamUtilsService paramUtilsService;
 
 	@Inject
 	private PedigreeController pedigreeController;
@@ -137,4 +136,7 @@ public class PedigreeControllerTest {
 		assertEquals("Expecting pedigree resource 1", pedigreeResource1, pedigreeResources.get(0));
 		assertEquals("Expecting pedigree resource 2", pedigreeResource2, pedigreeResources.get(1));
 	}
+
+
+
 }
