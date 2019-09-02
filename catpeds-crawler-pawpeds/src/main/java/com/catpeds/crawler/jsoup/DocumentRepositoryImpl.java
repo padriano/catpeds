@@ -26,7 +26,7 @@ class DocumentRepositoryImpl implements DocumentRepository {
 	private static final Logger LOGGER = LoggerFactory.getLogger(DocumentRepositoryImpl.class);
 
 	/**
-	 * @see com.catpeds.crawler.pawpeds.DocumentRepository#get(java.lang.String)
+	 * @see DocumentRepository#get(String)
 	 */
 	@Override
 	public Optional<Document> get(String url) throws IOException {
