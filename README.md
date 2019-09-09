@@ -1,6 +1,6 @@
 CatPeds
 ==========
-[![Build Status](https://travis-ci.com/padriano/catpeds.svg?branch=migrate-to-sonarcloud-io)](https://travis-ci.com/padriano/catpeds)
+[![Build Status](https://travis-ci.com/padriano/catpeds.svg?branch=master)](https://travis-ci.com/padriano/catpeds)
 [![Sonarcloud Status](https://sonarcloud.io/api/project_badges/measure?project=padriano_catpeds&metric=alert_status)](https://sonarcloud.io/dashboard?id=padriano_catpeds)
 [![Known Vulnerabilities](https://snyk.io/test/github/padriano/catpeds/badge.svg)](https://snyk.io/test/github/padriano/catpeds)
 
