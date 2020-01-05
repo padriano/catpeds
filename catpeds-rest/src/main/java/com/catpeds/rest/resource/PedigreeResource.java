@@ -2,19 +2,19 @@ package com.catpeds.rest.resource;
 
 import java.util.Objects;
 
-import org.springframework.hateoas.ResourceSupport;
+import org.springframework.hateoas.RepresentationModel;
 
 import com.catpeds.model.Pedigree;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * {@link Pedigree}'s {@link ResourceSupport}
+ * {@link Pedigree}'s {@link RepresentationModel}
  *
  * @author padriano
  *
  */
-public class PedigreeResource extends ResourceSupport {
+public class PedigreeResource extends RepresentationModel {
 
 	/**
 	 * Pedigree information content
@@ -36,7 +36,7 @@ public class PedigreeResource extends ResourceSupport {
 	}
 
 	/**
-	 * @see org.springframework.hateoas.ResourceSupport#equals(java.lang.Object)
+	 * @see org.springframework.hateoas.RepresentationModel#equals(java.lang.Object)
 	 */
 	@Override
 	public boolean equals(Object obj) {
@@ -47,7 +47,7 @@ public class PedigreeResource extends ResourceSupport {
 	}
 
 	/**
-	 * @see org.springframework.hateoas.ResourceSupport#hashCode()
+	 * @see org.springframework.hateoas.RepresentationModel#hashCode()
 	 */
 	@Override
 	public int hashCode() {

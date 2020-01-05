@@ -1,8 +1,6 @@
 package com.catpeds.rest.resource;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertSame;
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -50,7 +48,7 @@ public class PedigreeResourceFactoryTest {
 		// Then
 		assertNotNull("Expecting an instance", resource);
 		assertSame("Expecting the pedigree passed as argument", pedigree, resource.getPedigree());
-		assertEquals("Expecting one link", 1, resource.getLinks().size());
-		assertSame("Expecting the Link instance for the Link factory", link, resource.getLinks().get(0));
+		assertTrue("Expecting one link", resource.getLinks().hasSize(1));
+		assertTrue("Expecting the Link instance for the Link factory", resource.getLinks().contains(link));
 	}
 }
