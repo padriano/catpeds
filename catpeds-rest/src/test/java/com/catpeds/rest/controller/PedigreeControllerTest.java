@@ -102,6 +102,9 @@ public class PedigreeControllerTest {
 		String name = "Foo";
 		String nationalityCountryCode = "SE";
 		String locationCountryCode = "GB";
+		when(paramUtilsService.escapeParam(name)).thenReturn(name);
+		when(paramUtilsService.escapeParam(nationalityCountryCode)).thenReturn(nationalityCountryCode);
+		when(paramUtilsService.escapeParam(locationCountryCode)).thenReturn(locationCountryCode);
 		Pedigree pedigree1 = mock(Pedigree.class);
 		Pedigree pedigree2 = mock(Pedigree.class);
 		when(pawpedsPedigreeRepository.findAll(any(PedigreeCriteria.class)))

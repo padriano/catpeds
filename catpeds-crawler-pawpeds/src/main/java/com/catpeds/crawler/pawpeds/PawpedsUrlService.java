@@ -2,6 +2,7 @@ package com.catpeds.crawler.pawpeds;
 
 import static com.google.common.base.Strings.nullToEmpty;
 
+import javax.annotation.Untainted;
 import javax.inject.Named;
 
 import org.slf4j.Logger;
@@ -41,7 +42,7 @@ class PawpedsUrlService {
 	 *            the matcher for the search
 	 * @return URL string representation of the query
 	 */
-	public String getAdvancedSearchUrl(PedigreeCriteria criteria) {
+	public String getAdvancedSearchUrl(@Untainted PedigreeCriteria criteria) {
 		LOGGER.info("getAdvancedSearchUrl with criteria {}", criteria);
 
 		String bornAfter = criteria.getBornAfter() == null ? "" : criteria.getBornAfter().toString();

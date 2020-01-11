@@ -90,14 +90,20 @@ public class PedigreeController {
 			@RequestParam(value = "name", required = false) String name,
 			@RequestParam(value = "nationalityCountryCode", required = false) String nationalityCountryCode,
 			@RequestParam(value = "locationCountryCode", required = false) String locationCountryCode) {
+
+		// sanitized possible tainted values
+		String sanitizedName = paramUtilsService.escapeParam(name);
+		String sanitizedNationalityCountryCode = paramUtilsService.escapeParam(nationalityCountryCode);
+		String sanitizedLocationCountryCode = paramUtilsService.escapeParam(locationCountryCode);
+
 		LOGGER.info("find with name {} nationalityCountryCode {} locationCountryCode {}",
-                paramUtilsService.escapeParam(name), paramUtilsService.escapeParam(nationalityCountryCode),
-                paramUtilsService.escapeParam(locationCountryCode));
+				sanitizedName, sanitizedNationalityCountryCode,
+				sanitizedLocationCountryCode);
 
 		PedigreeCriteria criteria = new PedigreeCriteria();
-		criteria.setName(name);
-		criteria.setNationalityCountryCode(nationalityCountryCode);
-		criteria.setLocationCountryCode(locationCountryCode);
+		criteria.setName(sanitizedName);
+		criteria.setNationalityCountryCode(sanitizedNationalityCountryCode);
+		criteria.setLocationCountryCode(sanitizedLocationCountryCode);
 
 		return pawpedsPedigreeRepository.findAll(criteria).stream().map(pedigreeResourceFactory::create)
 				.collect(collectingAndThen(toList(), responseEntityFactory::createOK));
