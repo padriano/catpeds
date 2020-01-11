@@ -9,6 +9,8 @@ import java.util.Optional;
 import com.catpeds.model.Pedigree;
 import com.catpeds.model.PedigreeCriteria;
 
+import javax.annotation.Untainted;
+
 /**
  * Repository to retrieve pedigree information from PawPeds.
  *
@@ -30,7 +32,7 @@ public interface PawpedsPedigreeRepository {
 	 *         criteria with the title, name, gender, EMS and date of birth
 	 *         populated fields.
 	 */
-	Collection<Pedigree> findAll(PedigreeCriteria criteria);
+	Collection<Pedigree> findAll(@Untainted PedigreeCriteria criteria);
 
 	/**
 	 * Returns a collection of pedigree for the specified cat's offsprings.
