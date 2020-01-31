@@ -28,6 +28,8 @@
     <deploy.key.path>/Users/padriano/.ssh/aws-key-pair-1.pem</deploy.key.path>
     <dns.domain>example</dns.domain>
     <dns.token>foobar</dns.token>
+    <!-- Dependencies -->
+    <hibernate-validator.version>6.1.1.Final</hibernate-validator.version>
   </properties>
   
   <dependencyManagement>
@@ -38,6 +40,11 @@
         <version>1.0-SNAPSHOT</version>
         <type>pom</type>
         <scope>import</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.hibernate.validator</groupId>
+        <artifactId>hibernate-validator</artifactId>
+        <version>${hibernate-validator.version}</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
