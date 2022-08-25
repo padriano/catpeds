@@ -19,7 +19,7 @@
     <!-- Dependencies -->
     <java.version>1.8</java.version>
     <guava.version>28.1-jre</guava.version>
-    <jsoup.version>1.12.1</jsoup.version>
+    <jsoup.version>1.15.3</jsoup.version>
     <inject.version>1</inject.version>
     <slf4j.version>1.7.28</slf4j.version>
     <spring.boot.version>2.2.4.RELEASE</spring.boot.version>
