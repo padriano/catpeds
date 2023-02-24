@@ -30,7 +30,7 @@
     <dns.token>foobar</dns.token>
     <!-- Dependencies -->
     <hibernate-validator.version>6.1.1.Final</hibernate-validator.version>
-    <tomcat-embed-core.version>9.0.30</tomcat-embed-core.version>
+    <tomcat-embed-core.version>9.0.71</tomcat-embed-core.version>
   </properties>
   
   <dependencyManagement>
