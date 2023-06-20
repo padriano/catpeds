@@ -18,7 +18,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <!-- Dependencies -->
     <java.version>1.8</java.version>
-    <guava.version>28.1-jre</guava.version>
+    <guava.version>32.0.0-jre</guava.version>
     <jsoup.version>1.12.1</jsoup.version>
     <inject.version>1</inject.version>
     <slf4j.version>1.7.28</slf4j.version>
