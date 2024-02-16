@@ -29,7 +29,7 @@
     <dns.domain>example</dns.domain>
     <dns.token>foobar</dns.token>
     <!-- Dependencies -->
-    <hibernate-validator.version>6.1.1.Final</hibernate-validator.version>
+    <hibernate-validator.version>6.2.0.Final</hibernate-validator.version>
     <tomcat-embed-core.version>9.0.30</tomcat-embed-core.version>
   </properties>
   
