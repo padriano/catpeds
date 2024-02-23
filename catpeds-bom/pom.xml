@@ -23,7 +23,7 @@
     <inject.version>1</inject.version>
     <slf4j.version>1.7.28</slf4j.version>
     <spring.boot.version>2.2.4.RELEASE</spring.boot.version>
-    <spring.framework.version>5.2.3.RELEASE</spring.framework.version>
+    <spring.framework.version>5.3.32</spring.framework.version>
     <aspectj.version>1.9.4</aspectj.version>
     <jackson.version>2.9.10.1</jackson.version>
   </properties>
